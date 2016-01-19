@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+}
+
+header {
+    padding: 1.5em 0;
+    background-color: #c5d5cb;
+    margin: 0;
+    text-align: center;
+}
+body{
+    background-color: #e3e0cf;
+}
+
+#main{
+    width: 70%;
+    background-color: #e3e0cf;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+    
+}
+
+h1,
+h2,
+h3 {
+    
+}
+
+p {
+    
+}
+
+footer {
+    background-color: #98afa3;
+    text-align: center;
+}
