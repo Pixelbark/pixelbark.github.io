@@ -3,22 +3,23 @@
 }
 
 header {
-    padding: 1.5em 0;
+    padding: 1.5em;
     background-color: #c5d5cb;
-    margin: 0;
+    margin-top: 0;
     text-align: center;
 }
 body{
-    background-color: #e3e0cf;
+    background-color: #e3e3e3;
 }
 
 #main{
     width: 70%;
-    background-color: #e3e0cf;
+    background-color: #e3e3e3;
     text-align: center;
     padding-left: 1em;
     padding-right: 1em;
-    
+    align-self: center;
+    margin: auto;
 }
 
 h1,
@@ -34,4 +35,5 @@ p {
 footer {
     background-color: #98afa3;
     text-align: center;
+    padding: 1em 0;
 }
