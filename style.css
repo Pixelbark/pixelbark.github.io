@@ -3,6 +3,10 @@
   border: #FD971F;
 }
 
+ul {
+  color: white;
+}
+
 body {
   background-color: #272822;
 }
