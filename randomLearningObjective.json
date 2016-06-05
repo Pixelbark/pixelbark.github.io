@@ -1,0 +1,20 @@
+[	
+	{
+		"subject" : "Neuro",
+		"week" : "1",
+		"objective" : "Describe the structural elements and general architecture of the CNS and PNS",
+		"detail" : "Two main cell types: Nerve cells (neurons) and Glia cells (supporting), with insulation (lipid sheaths around inflow/outflow). Connective tissue sheaths in PNS, no connective tissue in CNS. Grey matter  nerve cell bodies (perikarya) found in two regions: superficial peripheral (cortex) or embedded in white matter (nuclei) -Neuropil (axonic, dendritic and glial processes) and glia cells. White matter  many myelinated processes (hence white) and glia cells. [NO CELL BODIES.] CNS SPINAL CORD  White matter OUTSIDE, grey matter CENTRALLY. Cross-sectional neuron, with epineurium (fibrous, surrounds nerves), perineurium (surrounds nerve fascicles)"
+	},
+	{
+		"subject" : "Neuro",
+		"week" : "1",
+		"objective" : "Name the subdivisions of the nervous system",
+		"detail" : "Somatic nervous system  under voluntary control (e.g muscle movements). Central nervous system (CNS)  brain  spinal cord. Peripheral nervous system (PNS)  cranial nerves  spinal nerves  trunks of autonomous nerves  enteric nervous system. Autonomous nervous system  sympathetic/parasympathetic. Not under voluntary control. Autonomous synapses AFTER CNS (so always has a second neuron going to an effector organ). Sympathetic  1st neuron in thoracolumbar spinal cord (ONLY REGION FOR SYMPATHETIC OUTFLOW), ganglia are either paravertebral (symphatic chain) or prevertebral (celiac ganglion, cran and caudal mesenteric ganglia, adrenal gland medulla).  Spinal outflow T1-L3: Fear, flee, fright, fun and frolic (alert state- widespread)Parasympathetic  1st neuron in brainstem OR sacral spinal cord, fibres then leave brainstem with cranial nerves, ganglion at effector organ level, and nerve cell bodies WITHIN effector organ. Outflow in cranial nerve 3, 7, 9, 10 and sacral nerve Local control of action (e.g urination, salivary glands, GIT, heart rate) N.B vagus nerve  thoracic and abdominal organs. Enteric nervous system  network of nerve cells in intestinal wall, regulates gut motility and secretion."
+	}, 	
+	{
+		"subject" : "Neuro",
+		"week" : "a",
+		"objective" : "a",
+		"detail" : "a"
+	}
+]
