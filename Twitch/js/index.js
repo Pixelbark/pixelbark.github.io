@@ -5,12 +5,12 @@ function main() {
     let current = includedStreams[i];
     $.getJSON('https://api.twitch.tv/kraken/streams/' + includedStreams[i] + '?callback=?', function(data) {
       if (data.error) {
-        $("#streamList").append('<div class="online"><button class="btn streamButton">>>No such channel, complain to the site owner.</button></div>');
+        $("#streamList").append('<div><button class="btn streamButton">>>No such channel, complain to the site owner.</button></div>');
       } else if (data.stream) {
         let name = data.stream.channel.display_name;
         let logo = data.stream.channel.logo
         name.toString();
-        $("#streamList").append('<div class="online"><button class="btn btn-success streamButton" onclick="clicked(\''+name+'\')"><img width=42 class="pull-left" src="' + logo + '">' + name + ' is live!</button></div>')
+        $("#streamList").append('<div class="online"><button class="btn btn-success streamButton" onclick="clicked(\''+name+'\')"><img width=42 class="pull-left" src="' + logo + '">' + name + ' - Now Playing: '+data.stream.game+'<img src="http://static-cdn.jtvnw.net/ttv-boxart/'+data.stream.game+'-340x396.jpg" class="pull-right" width=42></img><br>Current viewers: '+data.stream.viewers+'</button></div>')
       } else {
         $.getJSON(data._links.channel + "?callback=?", function(info) {
           $("#streamList").append('<div class="offline"><button class="btn btn-danger streamButton" onclick="clicked(\''+info.display_name+'\')"><img width=42 class="pull-left" src="' + info.logo + '">' + info.display_name + ' is offline</button></div>');
@@ -29,3 +29,18 @@ function clicked(input){
   $("#twitchStream").append('<iframe src="http://player.twitch.tv/?channel='+input+'" height="720" width="1280" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>');
   console.log("Changed to " + input);
 }
+
+$("#showall").click(function(){
+  $(".online").show();
+  $(".offline").show();
+});
+
+$("#showonline").click(function() {
+  $(".online").show();
+  $(".offline").hide();
+});
+
+$("#showoffline").click(function() {
+  $(".offline").show();
+  $(".online").hide();
+});

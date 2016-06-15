@@ -74,14 +74,12 @@
     height: 30vh;
   }
   #chatPanel {
-    height: 58vh;
+    height: 55vh;
   }
   .left-side {
     height: 95vh;
   }
   body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
   }
   body,
   html {
