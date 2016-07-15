@@ -96,6 +96,13 @@
   }
 }
 
+h3 {
+  font-family: 'Ceviche One', monospace;
+}
+
+p {
+  font-family: 'Baumans', monospace;
+}
 body {
   background:
 linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
