@@ -1,4 +1,4 @@
-let includedStreams = ["SRKevo1", "SRKEvo2", "SRKEvo3", "SRKEvo4", "Numaki", "logichole", "jyosua", "TheBrett", "IPLAYWINNER", "teamsp00ky", "CAPCOMFIGHTERS", "Twitch", "LEVELUPLIVE", "SRKLIVE", "saltybet"];
+let includedStreams = ["SRKevo1", "SRKEvo2", "SRKEvo3", "SRKEvo4", "Numakie", "Tekken", "logichole", "jyosua", "TheBrett", "IPLAYWINNER", "teamsp00ky", "CAPCOMFIGHTERS", "Twitch", "LEVELUPLIVE", "SRKLIVE", "saltybet"];
 
 function main() {
   for (let i = 0; i < includedStreams.length; i++) {
