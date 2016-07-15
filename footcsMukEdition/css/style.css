@@ -1,0 +1,118 @@
+@media only screen and (min-width: 320px) {
+  #title {
+    background-color: cadetblue;
+    width: 100%;
+    height: 50px;
+  }
+  .streamButton{
+    width: 100%;
+  }
+  #streamList {
+    height: 200px;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+  #chatPanel {
+    height: 300px;
+  }
+  .left-side {
+    height: 570px;
+    padding-right: 0px;
+  }
+  .right-side {
+    padding-right: 40px;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+  }
+  body,
+  html {
+    overflow-x: hidden;
+    overflow-y: show;
+  }
+  #twitchStream,
+  #chatPanel,
+  #streamlist {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+  }
+  #twitchStream iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #chatPanel iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 98%;
+    height: 100%;
+    padding-left: 2%;
+  }
+  .twitchStream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #title {
+    background-color: cadetblue;
+    width: 100%;
+    height: 50px;
+  }
+  #streamList {
+    height: 30vh;
+  }
+  #chatPanel {
+    height: 55vh;
+  }
+  .left-side {
+    height: 95vh;
+  }
+  body {
+  }
+  body,
+  html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  #chatPanel iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 97%;
+    height: 100%;
+    padding-left: 0%;
+  }
+}
+
+h3, h2, h1 {
+  font-family: 'Ceviche One', monospace;
+}
+
+p {
+  font-family: 'Baumans', monospace;
+}
+body {
+  background:
+linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+background-color: #131313;
+background-size: 20px 20px;
+  color: white;
+  font-family: monospace;
+}
