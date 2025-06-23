@@ -1,31 +1,472 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Splash page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Garner Family Homepage</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to ensure Inter font is applied and smooth scrolling */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #E2E8F0; /* Light gray text color */
+            background-color: #0F172A; /* Dark blue background for a modern feel (slate-950) */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            padding-top: 5rem; /* Adjust body padding to make space for fixed navbar and countdown */
+        }
+        /* Style for interactive elements (buttons, links) */
+        .btn-primary {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px; /* Fully rounded corners */
+            background-color: #F97316; /* Orange 500 */
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #EA580C; /* Darker orange on hover (Orange 600) */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .section-heading {
+            font-size: 2.5rem; /* Equivalent to text-4xl */
+            font-weight: 800; /* Extra bold */
+            margin-bottom: 2rem;
+            color: #CBD5E0; /* Lighter gray for headings */
+        }
+        /* Custom utility for subtle shadow and rounded corners on cards */
+        .card-style {
+            background-color: #1E293B; /* Slate 800 - dark blue for cards */
+            border-radius: 1rem; /* Rounded corners */
+            padding: 1.5rem; /* Slightly reduced padding to accommodate images better */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            display: flex; /* Use flexbox for consistent alignment within cards */
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Modal specific styles - kept for potential future use or if user wants option for larger view */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal.open {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            position: relative;
+            background-color: #1E293B; /* Slate 800 for modal background */
+            margin: auto;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh; /* Adjust as needed */
+            object-fit: contain;
+            border-radius: 0.75rem;
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #CBD5E0; /* Slate 300 */
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #FBBF24; /* Amber 400 for hover */
+            text-decoration: none;
+        }
+
+        /* Styles for inline images within panels */
+        .panel-image {
+            width: 100%; /* Make image fill card width */
+            height: 180px; /* Fixed height for consistency */
+            object-fit: cover; /* Crop image to fit */
+            border-radius: 0.5rem; /* Slightly less rounded than card */
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive iframe for Google Calendar */
+        .calendar-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%; /* 4:3 Aspect Ratio (change to 56.25% for 16:9) */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+        .calendar-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="splash">
-    <div class="splash_logo">PIX</div>
-    <div class="splash_svg">
-      <svg width="100%" height="100%">
-        <rect width="100%" height="100%" />
-      </svg>
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-slate-900 bg-opacity-90 backdrop-filter backdrop-blur-lg
+                px-4 sm:px-6 lg:px-8 py-4 shadow-lg rounded-b-xl mx-2 mt-2">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo/Site Title -->
+            <a href="#" class="text-2xl font-bold text-orange-400 hover:text-orange-300 transition-colors">The Garner Family</a>
+            <!-- Navigation Links for Desktop -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#calendar" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Our Calendar</a>
+                <a href="#family-hub" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Family Hub</a>
+                <a href="#contact" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Contact Us</a>
+            </div>
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-slate-800 bg-opacity-95 rounded-b-lg shadow-xl py-4 transition-all duration-300 ease-in-out transform scale-y-0 origin-top">
+            <div class="flex flex-col items-center space-y-4">
+                <a href="#calendar" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Our Calendar</a>
+                <a href="#family-hub" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Family Hub</a>
+                <a href="#contact" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Countdown Timer -->
+    <div class="fixed top-[4.5rem] left-0 right-0 z-30 bg-blue-700 bg-opacity-90 text-white text-center py-2 px-4 shadow-md
+                rounded-b-lg mx-2">
+        <p class="text-sm sm:text-base font-semibold">
+            Days until November 4th, 2025: <span id="countdown" class="text-orange-300"></span>
+        </p>
     </div>
-    <div class="splash_minimize">
-      <svg width="100%" height="100%">
-        <rect width="100%" height="100%" />
-      </svg>
+
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center text-center p-8 overflow-hidden
+                              bg-gradient-to-br from-slate-950 to-blue-900">
+        <!-- Abstract background pattern (optional, can be an SVG or image) -->
+        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/clean-textile.png');"></div>
+
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <!-- Placeholder for a family image/avatar -->
+            <img src="https://placehold.co/150x150/F97316/FFFFFF?text=Family" alt="The Garner Family Avatar"
+                 class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-orange-400 shadow-xl object-cover">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 animate-fade-in-up">
+                Welcome to the <span class="text-orange-400">Garner Family</span> Homepage!
+            </h1>
+            <p class="text-xl sm:text-2xl lg:text-3xl text-slate-300 mb-8 max-w-2xl mx-auto animate-fade-in-up delay-100">
+                Sharing our adventures, moments, and everything in between.
+            </p>
+            <a href="#contact" class="btn-primary animate-fade-in-up delay-200">Connect With Us</a>
+        </div>
+    </section>
+
+    <!-- Our Family Calendar Section (formerly About) -->
+    <section id="calendar" class="py-20 px-8 bg-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-heading text-center">Our Family Calendar</h2>
+            <div class="card-style">
+                <p class="text-lg text-slate-300 mb-6 text-center">
+                    Stay up-to-date with all our family events, appointments, and special dates!
+                    To embed your Google Calendar, follow these steps:
+                </p>
+                <ol class="list-decimal list-inside text-left text-slate-400 mb-6 space-y-2">
+                    <li>Go to <a href="https://calendar.google.com/" target="_blank" class="text-blue-400 hover:underline">Google Calendar</a>.</li>
+                    <li>In the left panel, find "My calendars", hover over your desired calendar, and click the three dots icon.</li>
+                    <li>Select "Settings and sharing".</li>
+                    <li>Scroll down to the "Integrate calendar" section.</li>
+                    <li>Copy the URL from the "Embed code" section (it starts with `<iframe>`).</li>
+                    <li>Replace the `src` attribute in the `iframe` tag below with your copied URL.</li>
+                </ol>
+
+                <!-- Google Calendar Embed Placeholder -->
+                <div class="calendar-container w-full">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=en.uk%23holiday%40group.v.calendar.google.com&ctz=Europe%2FLondon"
+                            style="border: 0" width="800" height="600" frameborder="0" scrolling="no" title="Google Calendar Placeholder"></iframe>
+                </div>
+                <p class="text-sm text-slate-500 mt-4">
+                    (Note: The calendar above is a placeholder for UK Holidays. Replace its `src` with your actual family calendar's embed URL.)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Family Hub Section -->
+    <section id="family-hub" class="py-20 px-8 bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-heading text-center">Our Family Hub: Memories & Links</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Panel 1: External Website Link -->
+                <div class="card-style">
+                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Favorite Recipe Blog</h3>
+                    <p class="text-slate-400 mb-4">Delicious recipes for family meals and baking adventures.</p>
+                    <a href="https://example.com/recipes" target="_blank" class="btn-primary text-sm">Visit Blog</a>
+                </div>
+
+                <!-- Panel 2: Direct Random Photo -->
+                <div class="card-style">
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">A Family Memory</h3>
+                    <img id="randomPhoto1" src="" alt="Family Memory" class="panel-image">
+                    <p class="text-slate-400 text-sm mb-4">A random snapshot from our collection.</p>
+                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto1">Refresh Photo</button>
+                </div>
+
+                <!-- Panel 3: External Website Link -->
+                <div class="card-style">
+                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Our Favorite Park</h3>
+                    <p class="text-slate-400 mb-4">Find out more about our go-to spot for outdoor fun.</p>
+                    <a href="https://example.com/park" target="_blank" class="btn-primary text-sm">Explore Park</a>
+                </div>
+
+                <!-- Panel 4: Direct Random Photo -->
+                <div class="card-style">
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Another Family Moment</h3>
+                    <img id="randomPhoto2" src="" alt="Another Family Memory" class="panel-image">
+                    <p class="text-slate-400 text-sm mb-4">Click refresh to see another!</p>
+                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto2">Refresh Photo</button>
+                </div>
+
+                <!-- Panel 5: External Website Link -->
+                <div class="card-style">
+                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Family Game Night Picks</h3>
+                    <p class="text-slate-400 mb-4">Our top board games and video games.</p>
+                    <a href="https://example.com/games" target="_blank" class="btn-primary text-sm">See Our Picks</a>
+                </div>
+
+                <!-- Panel 6: Direct Random Photo -->
+                <div class="card-style">
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Snapshot of Joy</h3>
+                    <img id="randomPhoto3" src="" alt="Snapshot of Joy" class="panel-image">
+                    <p class="text-slate-400 text-sm mb-4">A sweet memory to brighten your day.</p>
+                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto3">Refresh Photo</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-8 bg-slate-900">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-heading text-center">Connect With Us</h2>
+            <div class="card-style">
+                <p class="text-lg text-slate-300 mb-8 text-center">
+                    Have a question, want to share a memory, or just say hello? We'd love to hear from you!
+                </p>
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-slate-300 text-sm font-bold mb-2">Your Name</label>
+                        <input type="text" id="name" name="name"
+                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
+                               placeholder="Your Name" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-slate-300 text-sm font-bold mb-2">Your Email</label>
+                        <input type="email" id="email" name="email"
+                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
+                               placeholder="your.email@example.com" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-slate-300 text-sm font-bold mb-2">Your Message</label>
+                        <textarea id="message" name="message" rows="6"
+                                  class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
+                                  placeholder="Tell us about your favorite family memory, or just say hi!" required></textarea>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-8 bg-slate-950 text-center text-slate-500 text-sm rounded-t-xl mx-2 mb-2">
+        &copy; <span id="current-year"></span> The Garner Family. All rights reserved.
+    </footer>
+
+    <!-- Random Photo Modal - KEPT IN CASE USER WANTS A LARGER VIEW OPTION LATER -->
+    <div id="randomPhotoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <img id="modalImage" src="" alt="Random Family Photo" class="rounded-lg shadow-xl">
+        </div>
     </div>
-  </div>
-  <div class="text">
-    <img src="seedling_1f331.png" alt="Sprout">
-    <h1>Hetty...</h1>
-    <p>And her </br>numerous</br>attendants</p>
-  </div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js'></script>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open after clicking a link
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('scale-y-100');
+                    mobileMenu.classList.add('scale-y-0');
+                }
+            });
+        });
+
+        // Toggle mobile menu visibility
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('scale-y-100');
+            mobileMenu.classList.toggle('scale-y-0');
+        });
+
+        // Update current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- Countdown Timer Functionality ---
+        const countdownElement = document.getElementById('countdown');
+        const targetDate = new Date('2025-11-04T00:00:00').getTime(); // November 4th, 2025, 00:00:00
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Time calculations for days
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.textContent = "It's here!";
+            } else {
+                countdownElement.textContent = days; // Display only days
+            }
+        }
+
+        // Update the countdown initially and then every hour
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000 * 60 * 60);
+
+        // --- Random Photo Functionality (Inline Display) ---
+        const photoUrls = [
+            "https://placehold.co/800x600/FFD700/000000?text=Family+Moment+1",
+            "https://placehold.co/700x500/87CEEB/000000?text=Family+Moment+2",
+            "https://placehold.co/900x700/FFA07A/000000?text=Family+Moment+3",
+            "https://placehold.co/600x800/98FB98/000000?text=Family+Moment+4",
+            "https://placehold.co/1000x750/DDA0DD/000000?text=Family+Moment+5",
+            "https://placehold.co/750x550/ADD8E6/000000?text=Family+Moment+6",
+            "https://placehold.co/850x650/F08080/000000?text=Family+Moment+7",
+            "https://placehold.co/650x750/B0E0E6/000000?text=Family+Moment+8"
+        ];
+
+        // Function to load a random photo into a specific image element
+        function loadRandomPhoto(imgElementId) {
+            const imgElement = document.getElementById(imgElementId);
+            if (imgElement) {
+                const randomIndex = Math.floor(Math.random() * photoUrls.length);
+                imgElement.src = photoUrls[randomIndex];
+            }
+        }
+
+        // Load initial random photos when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRandomPhoto('randomPhoto1');
+            loadRandomPhoto('randomPhoto2');
+            loadRandomPhoto('randomPhoto3');
+
+            // Add event listeners for refresh buttons
+            document.querySelectorAll('.refresh-photo-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.target;
+                    loadRandomPhoto(targetId);
+                });
+            });
+        });
+
+        // --- Modal Functionality (kept but not actively used by the new photo panels) ---
+        // This part is for the old "Load New Photo" modal and can be removed if not needed.
+        // Keeping it for now in case the user wants to re-introduce a modal-like view.
+        const randomPhotoModal = document.getElementById('randomPhotoModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModalButton = document.getElementById('closeModalButton');
+
+        function openModalWithImage(imageUrl) {
+            modalImage.src = imageUrl;
+            randomPhotoModal.classList.add('open');
+        }
+
+        function closeRandomPhotoModal() {
+            randomPhotoModal.classList.remove('open');
+        }
+
+        closeModalButton.addEventListener('click', closeRandomPhotoModal);
+        randomPhotoModal.addEventListener('click', (event) => {
+            if (event.target === randomPhotoModal) {
+                closeRandomPhotoModal();
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && randomPhotoModal.classList.contains('open')) {
+                closeRandomPhotoModal();
+            }
+        });
+    </script>
 </body>
 </html>
