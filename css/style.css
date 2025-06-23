@@ -36,11 +36,10 @@ body {
   animation: type2 .5s steps(60, end) 3.7s;
 }
 .text button {
-  border: 0;
+  border: 1px solid #FFA500;
   opacity: 0;
   background: #191919;
   color: #FFA500;
-  border: 1px solid #191919;
   letter-spacing: 2px;
   padding: .5rem 2.5rem;
   font-size: 12px;
@@ -60,7 +59,7 @@ body {
 .text button:hover {
   background: #FFA500;
   color: #191919;
-  border: 1px solid #191919;
+  border: 1px solid #FFA500;
 }
 
 .splash {
