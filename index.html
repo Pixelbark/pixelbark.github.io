@@ -134,6 +134,17 @@
             border: 0;
         }
 
+        /* Keyframes for the flashing animation */
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; } /* Slightly fade out */
+        }
+
+        /* Apply the flashing animation to the countdown banner */
+        .flash-animation {
+            animation: flash 1.5s infinite alternate; /* Flash every 1.5s, alternating directions */
+        }
+
         @keyframes fadeInScale {
             from {
                 opacity: 0;
@@ -158,7 +169,7 @@
             <div class="hidden md:flex space-x-6">
                 <a href="#calendar" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Our Calendar</a>
                 <a href="#family-hub" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Family Hub</a>
-                <a href="#contact" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Contact Us</a>
+                <a href="#quotes" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Book Quotes</a>
             </div>
             <!-- Mobile Menu Button (Hamburger) -->
             <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
@@ -172,16 +183,16 @@
             <div class="flex flex-col items-center space-y-4">
                 <a href="#calendar" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Our Calendar</a>
                 <a href="#family-hub" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Family Hub</a>
-                <a href="#contact" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Contact Us</a>
+                <a href="#quotes" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Book Quotes</a>
             </div>
         </div>
     </nav>
 
     <!-- Countdown Timer -->
     <div class="fixed top-[4.5rem] left-0 right-0 z-30 bg-blue-700 bg-opacity-90 text-white text-center py-2 px-4 shadow-md
-                rounded-b-lg mx-2">
+                rounded-b-lg mx-2 flash-animation"> <!-- Added flash-animation class here -->
         <p class="text-sm sm:text-base font-semibold">
-            Days until November 4th, 2025: <span id="countdown" class="text-orange-300"></span>
+            Days until the wedding: <span id="countdown" class="text-orange-300"></span>
         </p>
     </div>
 
@@ -193,8 +204,8 @@
         <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/clean-textile.png');"></div>
 
         <div class="relative z-10 max-w-4xl mx-auto">
-            <!-- Placeholder for a family image/avatar -->
-            <img src="https://placehold.co/150x150/F97316/FFFFFF?text=Family" alt="The Garner Family Avatar"
+            <!-- Family image/avatar - updated src to your uploaded image -->
+            <img src="https://pixelbark.github.io/images/Screenshot 2025-06-23 155251.png" alt="The Garner Family Avatar"
                  class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-orange-400 shadow-xl object-cover">
             <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 animate-fade-in-up">
                 Welcome to the <span class="text-orange-400">Garner Family</span> Homepage!
@@ -202,7 +213,7 @@
             <p class="text-xl sm:text-2xl lg:text-3xl text-slate-300 mb-8 max-w-2xl mx-auto animate-fade-in-up delay-100">
                 Sharing our adventures, moments, and everything in between.
             </p>
-            <a href="#contact" class="btn-primary animate-fade-in-up delay-200">Connect With Us</a>
+            <a href="#quotes" class="btn-primary animate-fade-in-up delay-200">See a Random Quote</a>
         </div>
     </section>
 
@@ -245,7 +256,7 @@
 
                 <!-- Panel 2: Direct Random Photo -->
                 <div class="card-style">
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">A Family Memory</h3>
+                    <h3 class="2xl font-bold text-slate-200 mb-2">A Family Memory</h3>
                     <img id="randomPhoto1" src="" alt="Family Memory" class="panel-image">
                     <p class="text-slate-400 text-sm mb-4">A random snapshot from our collection.</p>
                     <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto1">Refresh Photo</button>
@@ -263,7 +274,7 @@
 
                 <!-- Panel 4: Direct Random Photo -->
                 <div class="card-style">
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Another Family Moment</h3>
+                    <h3 class="2xl font-bold text-slate-200 mb-2">Another Family Moment</h3>
                     <img id="randomPhoto2" src="" alt="Another Family Memory" class="panel-image">
                     <p class="text-slate-400 text-sm mb-4">Click refresh to see another!</p>
                     <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto2">Refresh Photo</button>
@@ -281,7 +292,7 @@
 
                 <!-- Panel 6: Direct Random Photo -->
                 <div class="card-style">
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Snapshot of Joy</h3>
+                    <h3 class="2xl font-bold text-slate-200 mb-2">Snapshot of Joy</h3>
                     <img id="randomPhoto3" src="" alt="Snapshot of Joy" class="panel-image">
                     <p class="text-slate-400 text-sm mb-4">A sweet memory to brighten your day.</p>
                     <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto3">Refresh Photo</button>
@@ -291,37 +302,18 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 px-8 bg-slate-900">
+    <!-- Julia Donaldson Quotes Section -->
+    <section id="quotes" class="py-20 px-8 bg-slate-900">
         <div class="max-w-4xl mx-auto">
-            <h2 class="section-heading text-center">Connect With Us</h2>
-            <div class="card-style">
-                <p class="text-lg text-slate-300 mb-8 text-center">
-                    Have a question, want to share a memory, or just say hello? We'd love to hear from you!
+            <h2 class="section-heading text-center">Favorite Julia Donaldson Lines</h2>
+            <div class="card-style text-center">
+                <p id="quote-text" class="text-lg italic text-slate-300 mb-4">
+                    "A mouse took a stroll through the deep dark wood."
                 </p>
-                <form class="space-y-6">
-                    <div>
-                        <label for="name" class="block text-slate-300 text-sm font-bold mb-2">Your Name</label>
-                        <input type="text" id="name" name="name"
-                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
-                               placeholder="Your Name" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-slate-300 text-sm font-bold mb-2">Your Email</label>
-                        <input type="email" id="email" name="email"
-                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
-                               placeholder="your.email@example.com" required>
-                    </div>
-                    <div>
-                        <label for="message" class="block text-slate-300 text-sm font-bold mb-2">Your Message</label>
-                        <textarea id="message" name="message" rows="6"
-                                  class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500 bg-slate-700 border-slate-600 text-white"
-                                  placeholder="Tell us about your favorite family memory, or just say hi!" required></textarea>
-                    </div>
-                    <div class="flex justify-center">
-                        <button type="submit" class="btn-primary">Send Message</button>
-                    </div>
-                </form>
+                <p id="quote-source" class="text-sm font-semibold text-orange-400 mb-6">
+                    - The Gruffalo (1999)
+                </p>
+                <button id="generate-quote-btn" class="btn-primary">Generate New Quote</button>
             </div>
         </div>
     </section>
@@ -397,17 +389,17 @@
 
         // --- Random Photo Functionality (Inline Display) ---
         const photoUrls = [
-            "https://pixelbark.github.io/IMG_4941.jpg",
-            "https://pixelbark.github.io/IMG_4942.jpg",
-            "https://pixelbark.github.io/IMG_4944.jpg",
-            "https://pixelbark.github.io/PXL_20250412_130555178.jpg",
-            "https://pixelbark.github.io/PXL_20250413_142258849.jpg",
-            "https://pixelbark.github.io/IMG_4976.jpg",
-            "https://pixelbark.github.io/IMG_5186.jpg",
-            "https://pixelbark.github.io/IMG_5203.jpg",
-            "https://pixelbark.github.io/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
-            "https://pixelbark.github.io/PXL_20250510_135947119.jpg",
-            "https://pixelbark.github.io/PXL_20250622_130339779.jpg"
+            "https://pixelbark.github.io/images/IMG_4941.jpg",
+            "https://pixelbark.github.io/images/IMG_4942.jpg",
+            "https://pixelbark.github.io/images/IMG_4944.jpg",
+            "https://pixelbark.github.io/images/PXL_20250412_130555178.jpg",
+            "https://pixelbark.github.io/images/PXL_20250413_142258849.jpg",
+            "https://pixelbark.github.io/images/IMG_4976.jpg",
+            "https://pixelbark.github.io/images/IMG_5186.jpg",
+            "https://pixelbark.github.io/images/IMG_5203.jpg",
+            "https://pixelbark.github.io/images/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
+            "https://pixelbark.github.io/images/PXL_20250510_135947119.jpg",
+            "https://pixelbark.github.io/images/PXL_20250622_130339779.jpg"
         ];
 
         // Function to load a random photo into a specific image element
@@ -433,6 +425,78 @@
                 });
             });
         });
+
+        // --- Julia Donaldson Quotes Functionality ---
+        const juliaDonaldsonQuotes = [
+            {
+                quote: "A mouse took a stroll through the deep dark wood.",
+                title: "The Gruffalo",
+                year: 1999
+            },
+            {
+                quote: "A snail, a snail, a tiny snail, a tiny snail with a very long trail.",
+                title: "The Snail and the Whale",
+                year: 2003
+            },
+            {
+                quote: "I'm the Gruffalo's Child and I'm fearfully grand!",
+                title: "The Gruffalo's Child",
+                year: 2004
+            },
+            {
+                quote: "What's that afoot on the branch above? It's Zog, the dragon, who's keen to learn.",
+                title: "Zog",
+                year: 2010
+            },
+            {
+                quote: "There's no such thing as a Gruffalo.",
+                title: "The Gruffalo",
+                year: 1999
+            },
+            {
+                quote: "He flew into the cave, and found a witch, stirring a pot, and a bubbling ditch.",
+                title: "Room on the Broom",
+                year: 2001
+            },
+            {
+                quote: "A dragon with a heart of gold, a princess brave and bold.",
+                title: "Zog and the Flying Doctors",
+                year: 2017
+            },
+            {
+                quote: "Then take me for a ride, said the snail. I'm longing to explore!",
+                title: "The Snail and the Whale",
+                year: 2003
+            },
+            {
+                quote: "But Mouse said, 'No, I'm going to find my own.'",
+                title: "A Squash and a Squeeze",
+                year: 1993
+            },
+            {
+                quote: "The witch tapped her broomstick, and whoosh! they were gone.",
+                title: "Room on the Broom",
+                year: 2001
+            }
+        ];
+
+        const quoteTextElement = document.getElementById('quote-text');
+        const quoteSourceElement = document.getElementById('quote-source');
+        const generateQuoteBtn = document.getElementById('generate-quote-btn');
+
+        function displayRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * juliaDonaldsonQuotes.length);
+            const selectedQuote = juliaDonaldsonQuotes[randomIndex];
+            quoteTextElement.textContent = `"${selectedQuote.quote}"`;
+            quoteSourceElement.textContent = `- ${selectedQuote.title} (${selectedQuote.year})`;
+        }
+
+        // Display a quote on page load
+        document.addEventListener('DOMContentLoaded', displayRandomQuote);
+
+        // Add event listener to the button
+        generateQuoteBtn.addEventListener('click', displayRandomQuote);
+
 
         // --- Modal Functionality (kept but not actively used by the new photo panels) ---
         const randomPhotoModal = document.getElementById('randomPhotoModal');
