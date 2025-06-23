@@ -206,24 +206,22 @@
         </div>
     </section>
 
-    <!-- Our Family Calendar Section (formerly About) -->
+    <!-- Our Family Calendar Section -->
     <section id="calendar" class="py-20 px-8 bg-slate-900">
         <div class="max-w-6xl mx-auto">
             <h2 class="section-heading text-center">Our Family Calendar</h2>
             <div class="card-style">
                 <p class="text-lg text-slate-300 mb-6 text-center">
                     Stay up-to-date with all our family events, appointments, and special dates!
-                    To embed your Google Calendar, follow these steps:
                 </p>
-                
 
-                <!-- Google Calendar Embed Placeholder -->
+                <!-- Google Calendar Embed Updated -->
                 <div class="calendar-container w-full">
                     <iframe src="https://calendar.google.com/calendar/embed?src=mattyxe%40gmail.com&ctz=Europe%2FLondon"
-                            style="border: 0" width="800" height="600" frameborder="0" scrolling="no" title="Google Calendar Placeholder"></iframe>
+                            style="border: 0" width="800" height="600" frameborder="0" scrolling="no" title="Google Calendar"></iframe>
                 </div>
                 <p class="text-sm text-slate-500 mt-4">
-                    (Note: The calendar above is a placeholder for UK Holidays. Replace its `src` with your actual family calendar's embed URL.)
+                    (Note: This calendar displays the one associated with `mattyxe@gmail.com`.)
                 </p>
             </div>
         </div>
@@ -235,14 +233,14 @@
             <h2 class="section-heading text-center">Our Family Hub: Memories & Links</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Panel 1: External Website Link -->
+                <!-- Panel 1: External Website Link - MyFitnessPal -->
                 <div class="card-style">
                     <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/>
                     </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Favorite Recipe Blog</h3>
-                    <p class="text-slate-400 mb-4">Delicious recipes for family meals and baking adventures.</p>
-                    <a href="https://example.com/recipes" target="_blank" class="btn-primary text-sm">Visit Blog</a>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">MyFitnessPal</h3>
+                    <p class="text-slate-400 mb-4">Track our family's health and fitness goals.</p>
+                    <a href="https://www.myfitnesspal.com" target="_blank" class="btn-primary text-sm">Visit MyFitnessPal</a>
                 </div>
 
                 <!-- Panel 2: Direct Random Photo -->
@@ -253,14 +251,14 @@
                     <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto1">Refresh Photo</button>
                 </div>
 
-                <!-- Panel 3: External Website Link -->
+                <!-- Panel 3: External Website Link - Garmin Connect -->
                 <div class="card-style">
                     <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                     </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Our Favorite Park</h3>
-                    <p class="text-slate-400 mb-4">Find out more about our go-to spot for outdoor fun.</p>
-                    <a href="https://example.com/park" target="_blank" class="btn-primary text-sm">Explore Park</a>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Garmin Connect</h3>
+                    <p class="text-slate-400 mb-4">Sync and analyze our outdoor activities and workouts.</p>
+                    <a href="https://connect.garmin.com" target="_blank" class="btn-primary text-sm">Visit Garmin Connect</a>
                 </div>
 
                 <!-- Panel 4: Direct Random Photo -->
@@ -271,14 +269,14 @@
                     <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto2">Refresh Photo</button>
                 </div>
 
-                <!-- Panel 5: External Website Link -->
+                <!-- Panel 5: External Website Link - YouTube -->
                 <div class="card-style">
                     <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
                     </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Family Game Night Picks</h3>
-                    <p class="text-slate-400 mb-4">Our top board games and video games.</p>
-                    <a href="https://example.com/games" target="_blank" class="btn-primary text-sm">See Our Picks</a>
+                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Our Favorite YouTube Channels</h3>
+                    <p class="text-slate-400 mb-4">Videos for family entertainment and learning.</p>
+                    <a href="https://www.youtube.com" target="_blank" class="btn-primary text-sm">Visit YouTube</a>
                 </div>
 
                 <!-- Panel 6: Direct Random Photo -->
@@ -399,14 +397,17 @@
 
         // --- Random Photo Functionality (Inline Display) ---
         const photoUrls = [
-            "https://placehold.co/800x600/FFD700/000000?text=Family+Moment+1",
-            "https://placehold.co/700x500/87CEEB/000000?text=Family+Moment+2",
-            "https://placehold.co/900x700/FFA07A/000000?text=Family+Moment+3",
-            "https://placehold.co/600x800/98FB98/000000?text=Family+Moment+4",
-            "https://placehold.co/1000x750/DDA0DD/000000?text=Family+Moment+5",
-            "https://placehold.co/750x550/ADD8E6/000000?text=Family+Moment+6",
-            "https://placehold.co/850x650/F08080/000000?text=Family+Moment+7",
-            "https://placehold.co/650x750/B0E0E6/000000?text=Family+Moment+8"
+            "https://pixelbark.github.io/IMG_4941.jpg",
+            "https://pixelbark.github.io/IMG_4942.jpg",
+            "https://pixelbark.github.io/IMG_4944.jpg",
+            "https://pixelbark.github.io/PXL_20250412_130555178.jpg",
+            "https://pixelbark.github.io/PXL_20250413_142258849.jpg",
+            "https://pixelbark.github.io/IMG_4976.jpg",
+            "https://pixelbark.github.io/IMG_5186.jpg",
+            "https://pixelbark.github.io/IMG_5203.jpg",
+            "https://pixelbark.github.io/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
+            "https://pixelbark.github.io/PXL_20250510_135947119.jpg",
+            "https://pixelbark.github.io/PXL_20250622_130339779.jpg"
         ];
 
         // Function to load a random photo into a specific image element
@@ -434,8 +435,6 @@
         });
 
         // --- Modal Functionality (kept but not actively used by the new photo panels) ---
-        // This part is for the old "Load New Photo" modal and can be removed if not needed.
-        // Keeping it for now in case the user wants to re-introduce a modal-like view.
         const randomPhotoModal = document.getElementById('randomPhotoModal');
         const modalImage = document.getElementById('modalImage');
         const closeModalButton = document.getElementById('closeModalButton');
