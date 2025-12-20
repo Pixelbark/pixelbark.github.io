@@ -6,16 +6,18 @@
     <title>The Garner Family | Littlehaugh</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonts: Playfair Display (Headings) & Inter (Body) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Fonts: Crimson Pro (Headings) & DM Sans (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;400;500;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Crimson Pro', 'serif'],
                     },
                     colors: {
                         stone: {
@@ -26,6 +28,7 @@
                             900: '#1c1917',
                         },
                         teal: {
+                            50: '#f0fdfa',
                             600: '#0d9488',
                             700: '#0f766e',
                             800: '#115e59',
@@ -59,7 +62,7 @@
         .btn-primary {
             display: inline-block;
             padding: 0.75rem 2rem;
-            border-radius: 0.75rem; 
+            border-radius: 9999px; 
             background-color: #0d9488;
             color: white;
             font-weight: 500;
@@ -74,28 +77,38 @@
             box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.3);
         }
 
+        /* Unified Card Style */
         .card-style {
             background-color: #ffffff;
-            border-radius: 1rem;
-            padding: 2rem;
+            border-radius: 1rem; /* rounded-2xl look */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e7e5e4;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid #e7e5e4;
-            height: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            height: 100%;
         }
 
         .card-style:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+            border-color: #d6d3d1;
+        }
+        
+        /* Inner content padding for cards */
+        .card-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .panel-image {
             width: 100%;
-            height: 220px;
+            height: 240px;
             object-fit: cover;
             border-radius: 0.75rem;
             margin-bottom: 1.5rem;
@@ -169,10 +182,20 @@
             visibility: visible;
             pointer-events: auto;
         }
-        
-        /* Weather Styles */
-        .weather-card {
-            background: linear-gradient(to bottom right, #ffffff, #fafaf9);
+
+        /* Paper Note Style for Fridge */
+        .paper-note {
+            background-color: #fef3c7;
+            background-image: linear-gradient(#f9eaec 1px, transparent 1px);
+            background-size: 100% 1.5rem;
+            line-height: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: rotate(-1deg);
+            transition: transform 0.2s ease;
+        }
+        .paper-note:focus-within {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -186,8 +209,8 @@
             <div class="hidden md:flex space-x-10">
                 <a href="#milestones" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Our Journey</a>
                 <a href="#calendar" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Calendar</a>
-                <a href="#family-hub" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Family Hub</a>
                 <a href="#weather" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Weather</a>
+                <a href="#fridge" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">The Fridge</a>
             </div>
 
             <button id="mobile-menu-button" class="md:hidden text-stone-600 hover:text-teal-700" aria-label="Toggle menu">
@@ -199,8 +222,8 @@
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-xl border-t border-stone-100 py-6 px-4 space-y-4">
             <a href="#milestones" class="block text-center text-lg font-serif text-stone-700 py-2">Our Journey</a>
             <a href="#calendar" class="block text-center text-lg font-serif text-stone-700 py-2">Calendar</a>
-            <a href="#family-hub" class="block text-center text-lg font-serif text-stone-700 py-2">Family Hub</a>
             <a href="#weather" class="block text-center text-lg font-serif text-stone-700 py-2">Weather</a>
+            <a href="#fridge" class="block text-center text-lg font-serif text-stone-700 py-2">The Fridge</a>
         </div>
     </nav>
 
@@ -216,6 +239,10 @@
         <div class="absolute -bottom-8 left-1/2 w-32 h-32 bg-amber-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 4s;"></div>
 
         <div class="relative z-10 max-w-4xl pt-10 animate-fade-in-up">
+            
+            <!-- Live Clock -->
+            <div id="live-clock" class="text-stone-400 font-mono text-sm mb-6 tracking-widest uppercase opacity-80">Loading Time...</div>
+
             <div class="relative inline-block mb-10 group">
                 <div class="absolute -inset-2 bg-gradient-to-tr from-teal-200 to-rose-200 rounded-full blur-lg opacity-60 group-hover:opacity-80 transition duration-500"></div>
                 <img src="https://pixelbark.github.io/images/Screenshot 2025-06-23 155251.png" alt="Family Logo"
@@ -223,15 +250,15 @@
                      onerror="this.src='https://ui-avatars.com/api/?name=Garner+Family&background=0d9488&color=fff'">
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-stone-900 mb-6 leading-tight">
+            <h1 class="text-6xl md:text-8xl font-serif font-semibold text-stone-900 mb-6 leading-tight tracking-tight">
                 Welcome to <br><span class="italic text-teal-700 relative inline-block">
                     Littlehaugh
-                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-rose-300 -z-10" viewBox="0 0 200 9" fill="currentColor"><path d="M2.00025 6.99999C28.5284 3.33333 100.224 -2.00001 198.001 2.99999" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    <svg class="absolute w-full h-3 -bottom-2 left-0 text-rose-300 -z-10" viewBox="0 0 200 9" fill="currentColor"><path d="M2.00025 6.99999C28.5284 3.33333 100.224 -2.00001 198.001 2.99999" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
                 </span>
             </h1>
             
             <!-- Live Time Together Counter -->
-            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-stone-200 px-6 py-2 rounded-full shadow-sm mb-8 text-sm md:text-base text-stone-600">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-stone-200 px-6 py-2 rounded-full shadow-sm mb-8 text-sm md:text-base text-stone-600 font-medium">
                 <span class="text-rose-500">❤️</span>
                 <span>Writing our story for</span>
                 <span id="years-together" class="font-bold text-teal-700">...</span>
@@ -239,7 +266,7 @@
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a href="#weather" class="btn-primary">Check Forecast</a>
-                <a href="#family-hub" class="px-8 py-3 rounded-xl border-2 border-stone-200 text-stone-600 hover:border-teal-600 hover:text-teal-700 transition-all font-semibold bg-white hover:bg-stone-50">Enter Family Hub</a>
+                <a href="#fridge" class="px-8 py-3 rounded-full border border-stone-200 text-stone-600 hover:border-teal-600 hover:text-teal-700 transition-all font-semibold bg-white hover:bg-stone-50">View Fridge Notes</a>
             </div>
         </div>
     </section>
@@ -248,24 +275,139 @@
     <section id="weather" class="py-24 px-6 bg-stone-50 border-t border-stone-100">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 reveal">
-                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Adventure Planning</span>
-                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Local Forecasts</h2>
-                <p class="text-stone-500 mt-2">Live updates for home, town, and the hills.</p>
+                <span class="text-teal-600 font-bold tracking-widest uppercase text-xs font-sans">Adventure Planning</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-semibold text-stone-900 mt-3">Local Forecasts</h2>
+                <p class="text-stone-500 mt-2 font-light text-lg">Live sun & wind updates for the hills.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="weather-grid">
-                <!-- Weather cards will be injected here -->
-                <div class="col-span-full text-center text-stone-400 py-12">Loading forecasts...</div>
+            <!-- Main Forecasts -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12" id="weather-grid">
+                <div class="col-span-full text-center text-stone-400 py-12">Loading detailed forecasts...</div>
+            </div>
+
+            <!-- Quick Look Bar -->
+            <div class="max-w-5xl mx-auto">
+                <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6">
+                     <h3 class="text-sm font-bold text-stone-400 uppercase tracking-widest mb-4 text-center md:text-left">Quick Look Around Scotland</h3>
+                     <div id="quick-weather-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                         <div class="col-span-full text-center text-stone-300 text-sm">Loading cities...</div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fridge / Family Hub Section (Renamed to fit the new note feature) -->
+    <section id="fridge" class="py-24 px-6 bg-white border-y border-stone-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-teal-600 font-bold tracking-widest uppercase text-xs">Family Dashboard</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-semibold text-stone-900 mt-3">The Fridge & Hub</h2>
+                <p class="text-stone-500 mt-4 max-w-lg mx-auto text-lg font-light">Leave a note, check stats, or browse memories.</p>
+            </div>
+
+            <!-- The Fridge Note -->
+            <div class="max-w-2xl mx-auto mb-20 reveal">
+                <div class="paper-note p-8 relative rotate-1">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-yellow-200/50 -rotate-2 blur-sm"></div> <!-- Tape effect -->
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-yellow-100/30 rotate-1"></div> <!-- Tape effect -->
+                    <h3 class="font-serif font-bold text-stone-700 text-xl mb-4 text-center">📝 Fridge Notes</h3>
+                    <textarea id="fridge-note" class="w-full bg-transparent border-none resize-none focus:ring-0 text-stone-800 font-handwriting text-lg leading-relaxed h-40 placeholder-stone-400/50" placeholder="Type a reminder here... (e.g., Bin day tomorrow!)"></textarea>
+                    <p class="text-right text-xs text-stone-400 mt-2 italic">Auto-saves to this device</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- MyFitnessPal -->
+                <div class="card-style group reveal delay-100">
+                    <div class="card-content">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
+                            <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-3 text-stone-900">MyFitnessPal</h3>
+                        <p class="text-stone-500 text-sm mb-8 flex-grow leading-relaxed">Track our nutrition and collective fitness journey towards better health.</p>
+                        <a href="https://www.myfitnesspal.com" target="_blank" class="btn-primary text-sm shadow-none">Launch Tracker</a>
+                    </div>
+                </div>
+
+                <!-- Random Photo 1 -->
+                <div class="card-style group reveal delay-200">
+                    <div class="relative w-full h-full">
+                        <img id="photo1" src="" alt="Family Memory" class="w-full h-64 object-cover" loading="lazy">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-serif font-bold text-stone-800 text-xl">Snapshot</h3>
+                                <button class="text-xs font-bold text-teal-600 hover:text-teal-800 refresh-btn flex items-center gap-1 transition-colors uppercase tracking-wide" data-target="photo1">
+                                    Refresh ↻
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garmin -->
+                <div class="card-style group reveal delay-300">
+                    <div class="card-content">
+                        <div class="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-teal-100 transition-colors">
+                            <svg class="w-8 h-8 text-teal-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-3 text-stone-900">Garmin Connect</h3>
+                        <p class="text-stone-500 text-sm mb-8 flex-grow leading-relaxed">Analysing our walks, runs, and outdoor activities in the countryside.</p>
+                        <a href="https://connect.garmin.com" target="_blank" class="btn-primary text-sm shadow-none">Open Connect</a>
+                    </div>
+                </div>
+
+                <!-- Random Photo 2 -->
+                <div class="card-style group reveal delay-400">
+                     <div class="relative w-full h-full">
+                        <img id="photo2" src="" alt="Family Memory" class="w-full h-64 object-cover" loading="lazy">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-serif font-bold text-stone-800 text-xl">Memory</h3>
+                                <button class="text-xs font-bold text-teal-600 hover:text-teal-800 refresh-btn flex items-center gap-1 transition-colors uppercase tracking-wide" data-target="photo2">
+                                    Refresh ↻
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YouTube -->
+                <div class="card-style group reveal delay-500">
+                    <div class="card-content">
+                        <div class="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-100 transition-colors">
+                            <svg class="w-8 h-8 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-3 text-stone-900">Entertainment</h3>
+                        <p class="text-stone-500 text-sm mb-8 flex-grow leading-relaxed">Our curated collection of learning and fun channels for downtime.</p>
+                        <a href="https://www.youtube.com" target="_blank" class="btn-primary text-sm shadow-none">Watch Now</a>
+                    </div>
+                </div>
+
+                <!-- Random Photo 3 -->
+                <div class="card-style group reveal delay-600">
+                     <div class="relative w-full h-full">
+                        <img id="photo3" src="" alt="Family Memory" class="w-full h-64 object-cover" loading="lazy">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-serif font-bold text-stone-800 text-xl">Joy</h3>
+                                <button class="text-xs font-bold text-teal-600 hover:text-teal-800 refresh-btn flex items-center gap-1 transition-colors uppercase tracking-wide" data-target="photo3">
+                                    Refresh ↻
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Milestones / Timeline Section -->
-    <section id="milestones" class="py-24 px-6 bg-white border-y border-stone-100 relative overflow-hidden">
+    <section id="milestones" class="py-24 px-6 bg-stone-50 border-t border-stone-100 relative overflow-hidden">
         <div class="max-w-4xl mx-auto relative z-10">
             <div class="text-center mb-16 reveal">
-                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Our History</span>
-                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Milestones</h2>
+                <span class="text-teal-600 font-bold tracking-widest uppercase text-xs">Our History</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-semibold text-stone-900 mt-3">Milestones</h2>
             </div>
 
             <div class="relative">
@@ -276,9 +418,9 @@
                     <!-- Event 1 -->
                     <div class="timeline-item flex flex-col md:flex-row items-center justify-between gap-8 reveal">
                         <div class="md:w-5/12 text-center md:text-right order-2 md:order-1">
-                            <h3 class="text-2xl font-serif font-bold text-stone-800">The Beginning</h3>
+                            <h3 class="text-2xl font-serif font-semibold text-stone-800">The Beginning</h3>
                             <p class="text-teal-600 font-medium mt-1">18th December 2006</p>
-                            <p class="text-stone-500 mt-2 text-sm">Where it all started. The first date that kicked off a lifetime of adventure.</p>
+                            <p class="text-stone-500 mt-2 text-sm leading-relaxed">Where it all started. The first date that kicked off a lifetime of adventure.</p>
                         </div>
                         <div class="timeline-dot w-12 h-12 bg-rose-100 rounded-full border-4 border-white shadow-lg flex items-center justify-center order-1 md:order-2 shrink-0">
                             <span class="text-xl">💘</span>
@@ -293,18 +435,18 @@
                             <span class="text-xl">👶</span>
                         </div>
                         <div class="md:w-5/12 text-center md:text-left order-2 md:order-3">
-                            <h3 class="text-2xl font-serif font-bold text-stone-800">Hetty Arrives</h3>
+                            <h3 class="text-2xl font-serif font-semibold text-stone-800">Hetty Arrives</h3>
                             <p class="text-teal-600 font-medium mt-1">18th March 2023</p>
-                            <p class="text-stone-500 mt-2 text-sm">Our world grew brighter and busier with the arrival of Hetty.</p>
+                            <p class="text-stone-500 mt-2 text-sm leading-relaxed">Our world grew brighter and busier with the arrival of Hetty.</p>
                         </div>
                     </div>
 
                     <!-- Event 3 -->
                     <div class="timeline-item flex flex-col md:flex-row items-center justify-between gap-8 reveal">
                         <div class="md:w-5/12 text-center md:text-right order-2 md:order-1">
-                            <h3 class="text-2xl font-serif font-bold text-stone-800">The Wedding</h3>
+                            <h3 class="text-2xl font-serif font-semibold text-stone-800">The Wedding</h3>
                             <p class="text-teal-600 font-medium mt-1">4th November 2025</p>
-                            <p class="text-stone-500 mt-2 text-sm">A beautiful day of celebration. Officially Mr & Mrs Garner!</p>
+                            <p class="text-stone-500 mt-2 text-sm leading-relaxed">A beautiful day of celebration. Officially Mr & Mrs Garner!</p>
                             <span id="days-since-wedding" class="inline-block mt-2 text-xs font-bold text-rose-500 bg-rose-50 px-2 py-1 rounded-md">... days ago</span>
                         </div>
                         <div class="timeline-dot w-12 h-12 bg-amber-100 rounded-full border-4 border-white shadow-lg flex items-center justify-center order-1 md:order-2 shrink-0">
@@ -318,11 +460,11 @@
     </section>
 
     <!-- Calendar -->
-    <section id="calendar" class="py-24 px-6 bg-stone-50">
+    <section id="calendar" class="py-24 px-6 bg-white border-t border-stone-100">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12 reveal">
-                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Planning Ahead</span>
-                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Family Schedule</h2>
+                <span class="text-teal-600 font-bold tracking-widest uppercase text-xs">Planning Ahead</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-semibold text-stone-900 mt-3">Family Schedule</h2>
             </div>
             
             <div class="bg-white p-4 md:p-8 rounded-2xl shadow-xl border border-stone-100 max-w-5xl mx-auto reveal delay-100">
@@ -334,94 +476,6 @@
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-500">
                         Primary: mattyxe@gmail.com
                     </span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Family Hub -->
-    <section id="family-hub" class="py-24 px-6 bg-white border-t border-stone-100">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Quick Links & Memories</span>
-                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">The Hub</h2>
-                <p class="text-stone-500 mt-4 max-w-lg mx-auto">Our central dashboard for health tracking, outdoor activities, and capturing small moments.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- MyFitnessPal -->
-                <div class="card-style group reveal delay-100">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
-                        <svg class="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">MyFitnessPal</h3>
-                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Track our nutrition and collective fitness journey towards better health.</p>
-                    <a href="https://www.myfitnesspal.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Launch Tracker</a>
-                </div>
-
-                <!-- Random Photo 1 -->
-                <div class="card-style !p-4 bg-stone-50 rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-200">
-                    <div class="relative w-full">
-                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
-                        <img id="photo1" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
-                    </div>
-                    <div class="flex justify-between items-center w-full px-2 mt-auto">
-                        <h3 class="font-serif font-bold text-stone-800 text-lg">Snapshot</h3>
-                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo1">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Refresh
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Garmin -->
-                <div class="card-style group reveal delay-300">
-                    <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-teal-100 transition-colors">
-                        <svg class="w-7 h-7 text-teal-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">Garmin Connect</h3>
-                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Analysing our walks, runs, and outdoor activities in the countryside.</p>
-                    <a href="https://connect.garmin.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Open Connect</a>
-                </div>
-
-                <!-- Random Photo 2 -->
-                <div class="card-style !p-4 bg-stone-50 -rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-400">
-                    <div class="relative w-full">
-                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
-                        <img id="photo2" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
-                    </div>
-                    <div class="flex justify-between items-center w-full px-2 mt-auto">
-                        <h3 class="font-serif font-bold text-stone-800 text-lg">Memory</h3>
-                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo2">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Refresh
-                        </button>
-                    </div>
-                </div>
-
-                <!-- YouTube -->
-                <div class="card-style group reveal delay-500">
-                    <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-100 transition-colors">
-                        <svg class="w-7 h-7 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">Entertainment</h3>
-                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Our curated collection of learning and fun channels for downtime.</p>
-                    <a href="https://www.youtube.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Watch Now</a>
-                </div>
-
-                <!-- Random Photo 3 -->
-                <div class="card-style !p-4 bg-stone-50 rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-600">
-                    <div class="relative w-full">
-                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
-                        <img id="photo3" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
-                    </div>
-                    <div class="flex justify-between items-center w-full px-2 mt-auto">
-                        <h3 class="font-serif font-bold text-stone-800 text-lg">Joy</h3>
-                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo3">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            Refresh
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -454,6 +508,7 @@
                 dating: '2006-12-18T00:00:00',
                 wedding: '2025-11-04T00:00:00'
             },
+            // Fallback photos in case JSON load fails
             photos: [
                 "https://pixelbark.github.io/images/IMG_4941.jpg",
                 "https://pixelbark.github.io/images/IMG_4942.jpg",
@@ -469,9 +524,15 @@
             ],
             weather: {
                 locations: [
-                    { name: "Rothes (Home)", lat: 57.5295, lon: -3.2082 },
+                    { name: "Rothes", lat: 57.5295, lon: -3.2082 },
                     { name: "Elgin", lat: 57.6498, lon: -3.3186 },
-                    { name: "Aviemore (Hills)", lat: 57.1882, lon: -3.8294, highlightWind: true }
+                    { name: "Aviemore", lat: 57.1882, lon: -3.8294, highlightWind: true }
+                ],
+                quickLocations: [
+                    { name: "Aberdeen", lat: 57.1497, lon: -2.0943 },
+                    { name: "Inverness", lat: 57.4778, lon: -4.2247 },
+                    { name: "Edinburgh", lat: 55.9533, lon: -3.1883 },
+                    { name: "Glasgow", lat: 55.8642, lon: -4.2518 }
                 ]
             }
         };
@@ -480,14 +541,34 @@
          * LOGIC
          */
         const App = {
-            init() {
+            async init() {
+                // Try to load dynamic photos from the JSON file generated by Python
+                await this.loadDynamicPhotos();
+                
                 this.updateWeddingCountdown();
                 this.updateYearsTogether();
                 this.initWeather();
+                this.initClock();
+                this.initFridge();
                 ['photo1', 'photo2', 'photo3'].forEach(id => this.setRandomPhoto(id));
                 document.getElementById('year').innerText = new Date().getFullYear();
                 this.setupScrollReveal();
                 this.bindEvents();
+            },
+
+            async loadDynamicPhotos() {
+                try {
+                    const response = await fetch('data/photos.json');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (Array.isArray(data) && data.length > 0) {
+                            console.log(`Loaded ${data.length} photos from dynamic source.`);
+                            CONFIG.photos = data;
+                        }
+                    }
+                } catch (e) {
+                    console.log("Using default embedded photos.");
+                }
             },
 
             bindEvents() {
@@ -521,7 +602,7 @@
                 const lightbox = document.getElementById('lightbox');
                 const lightboxImg = document.getElementById('lightbox-img');
 
-                document.querySelectorAll('.panel-image').forEach(img => {
+                document.querySelectorAll('.card-style img').forEach(img => {
                     img.onclick = (e) => {
                         lightboxImg.src = e.target.src;
                         lightbox.classList.remove('hidden');
@@ -576,6 +657,29 @@
                 document.getElementById('years-together').innerText = `${years} years`;
             },
 
+            initClock() {
+                const update = () => {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                    const dateString = now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+                    document.getElementById('live-clock').innerText = `${timeString} • ${dateString}`;
+                };
+                update();
+                setInterval(update, 1000);
+            },
+
+            initFridge() {
+                const note = document.getElementById('fridge-note');
+                // Load from storage
+                const saved = localStorage.getItem('family_fridge_note');
+                if (saved) note.value = saved;
+                
+                // Save on edit
+                note.addEventListener('input', () => {
+                    localStorage.setItem('family_fridge_note', note.value);
+                });
+            },
+
             setRandomPhoto(id) {
                 const img = document.getElementById(id);
                 if (!img) return;
@@ -590,49 +694,65 @@
 
             // Weather Logic using Open-Meteo API
             async initWeather() {
+                // Main Weather
                 const container = document.getElementById('weather-grid');
-                if (!container) return;
+                if (container) {
+                    container.innerHTML = ''; 
+                    for (const loc of CONFIG.weather.locations) {
+                       await this.fetchAndRenderWeather(loc, container, 'main');
+                    }
+                }
 
-                container.innerHTML = ''; // Clear loading text
-
-                for (const loc of CONFIG.weather.locations) {
-                    try {
-                        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max&timezone=Europe%2FLondon`;
-                        const res = await fetch(url);
-                        const data = await res.json();
-                        
-                        this.renderWeatherCard(container, loc, data);
-                    } catch (error) {
-                        console.error("Weather fetch failed", error);
-                        container.innerHTML += `<div class="p-4 text-red-500">Failed to load ${loc.name}</div>`;
+                // Quick Weather
+                const quickContainer = document.getElementById('quick-weather-grid');
+                if (quickContainer) {
+                    quickContainer.innerHTML = '';
+                    for (const loc of CONFIG.weather.quickLocations) {
+                        await this.fetchAndRenderWeather(loc, quickContainer, 'quick');
                     }
                 }
             },
 
+            async fetchAndRenderWeather(loc, container, type) {
+                try {
+                    // Added daily=sunrise,sunset to API call
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,sunrise,sunset&timezone=Europe%2FLondon`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    if (type === 'main') {
+                        this.renderWeatherCard(container, loc, data);
+                    } else {
+                        this.renderQuickWeather(container, loc, data);
+                    }
+                } catch (error) {
+                    console.error("Weather fetch failed for " + loc.name, error);
+                    container.innerHTML += `<div class="p-2 text-red-400 text-xs">Error: ${loc.name}</div>`;
+                }
+            },
+
             getWeatherIcon(code) {
-                // WMO Code mapping to simple emojis
                 const map = {
                     0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
                     45: '🌫️', 48: '🌫️',
-                    51: 'DRIZZLE', 53: 'DRIZZLE', 55: 'DRIZZLE',
+                    51: '🌦️', 53: '🌦️', 55: '🌧️',
                     61: '🌧️', 63: '🌧️', 65: '🌧️',
                     71: '❄️', 73: '❄️', 75: '❄️',
                     80: '🌦️', 81: '🌦️', 82: '⛈️',
                     95: '⛈️', 96: '⛈️', 99: '⛈️'
                 };
-                if (map[code] === 'DRIZZLE') return '🌦️';
                 return map[code] || '🌡️';
             },
 
             getWeatherDesc(code) {
                 const map = {
-                    0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
-                    45: 'Fog', 48: 'Depositing rime fog',
-                    51: 'Light drizzle', 53: 'Mod. drizzle', 55: 'Dense drizzle',
-                    61: 'Slight rain', 63: 'Mod. rain', 65: 'Heavy rain',
-                    71: 'Slight snow', 73: 'Mod. snow', 75: 'Heavy snow',
-                    80: 'Slight showers', 81: 'Mod. showers', 82: 'Violent showers',
-                    95: 'Thunderstorm', 96: 'Thunderstorm & hail'
+                    0: 'Clear', 1: 'Fair', 2: 'Cloudy', 3: 'Overcast',
+                    45: 'Fog', 48: 'Fog',
+                    51: 'Drizzle', 53: 'Drizzle', 55: 'Rain',
+                    61: 'Rain', 63: 'Rain', 65: 'Heavy Rain',
+                    71: 'Snow', 73: 'Snow', 75: 'Snow',
+                    80: 'Showers', 81: 'Showers', 82: 'Storms',
+                    95: 'Storms', 96: 'Hail', 99: 'Hail'
                 };
                 return map[code] || 'Unknown';
             },
@@ -641,61 +761,82 @@
                 const current = data.current_weather;
                 const daily = data.daily;
                 
-                // Forecast Items (Today + next 3 days)
+                // Get Sunrise/Sunset for today (index 0)
+                const sunrise = new Date(daily.sunrise[0]).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+                const sunset = new Date(daily.sunset[0]).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'});
+
                 let forecastHTML = '';
                 const today = new Date().getDay();
                 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 
-                // Show Today + 3 days (indices 0 to 3)
-                for(let i=0; i<4; i++) {
+                for(let i=0; i<3; i++) {
                     const dayName = i === 0 ? 'Today' : days[(today + i) % 7];
                     const icon = this.getWeatherIcon(daily.weathercode[i]);
                     const max = Math.round(daily.temperature_2m_max[i]);
                     const min = Math.round(daily.temperature_2m_min[i]);
                     const wind = Math.round(daily.windspeed_10m_max[i]);
                     
-                    // Highlight wind if requested (for Hills)
                     const windDisplay = loc.highlightWind 
-                        ? `<span class="text-xs ${wind > 30 ? 'text-red-600 font-bold' : 'text-stone-400'}">💨 ${wind}km/h</span>`
+                        ? `<span class="text-[10px] ${wind > 30 ? 'text-rose-600 font-bold' : 'text-stone-400'}">💨 ${wind}kph</span>`
                         : '';
 
                     forecastHTML += `
                         <div class="flex justify-between items-center py-2 border-b border-stone-100 last:border-0">
-                            <span class="w-12 text-sm font-medium text-stone-500 text-left">${dayName}</span>
-                            <span class="text-lg">${icon}</span>
+                            <span class="w-10 text-xs font-bold text-stone-400 uppercase text-left">${dayName}</span>
+                            <span class="text-base">${icon}</span>
                             <div class="text-right">
                                 <span class="text-sm font-bold text-stone-700">${max}°</span>
                                 <span class="text-xs text-stone-400 ml-1">${min}°</span>
                             </div>
-                            ${windDisplay ? `<div class="w-16 text-right">${windDisplay}</div>` : ''}
+                            ${loc.highlightWind ? `<div class="w-12 text-right">${windDisplay}</div>` : ''}
                         </div>
                     `;
                 }
 
                 const card = document.createElement('div');
-                card.className = "card-style weather-card reveal text-left items-stretch !p-0 overflow-hidden";
+                card.className = "card-style reveal";
                 card.innerHTML = `
-                    <div class="bg-teal-600 p-4 text-white">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-serif font-bold text-lg">${loc.name}</h3>
-                            <span class="text-3xl">${this.getWeatherIcon(current.weathercode)}</span>
+                    <div class="card-content !p-6 w-full">
+                        <div class="flex justify-between items-start w-full mb-4">
+                            <div class="text-left">
+                                <h3 class="font-serif font-bold text-xl text-stone-800">${loc.name}</h3>
+                                <div class="flex gap-2 mt-1">
+                                    <span class="text-[10px] bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded border border-amber-100">☀️ ${sunrise}</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded border border-indigo-100">🌙 ${sunset}</span>
+                                </div>
+                            </div>
+                            <span class="text-4xl">${this.getWeatherIcon(current.weathercode)}</span>
                         </div>
-                        <div class="flex items-end gap-2 mt-2">
-                            <span class="text-4xl font-bold">${Math.round(current.temperature)}°</span>
-                            <span class="text-teal-100 text-sm mb-1">${this.getWeatherDesc(current.weathercode)}</span>
+                        
+                        <div class="flex items-baseline gap-2 w-full mb-6">
+                            <span class="text-5xl font-bold text-stone-800">${Math.round(current.temperature)}°</span>
+                            <span class="text-stone-500 font-medium">${this.getWeatherDesc(current.weathercode)}</span>
                         </div>
-                         ${loc.highlightWind ? `<div class="mt-2 text-xs bg-teal-700 inline-block px-2 py-1 rounded">Current Wind: ${current.windspeed} km/h</div>` : ''}
-                    </div>
-                    <div class="p-4">
-                        <div class="space-y-1">
+
+                        <div class="w-full bg-stone-50 rounded-lg p-3">
                             ${forecastHTML}
                         </div>
                     </div>
                 `;
                 container.appendChild(card);
-                
-                // Trigger animation for new element
                 setTimeout(() => card.classList.add('active'), 100);
+            },
+
+            renderQuickWeather(container, loc, data) {
+                const current = data.current_weather;
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between p-3 bg-stone-50 rounded-lg hover:bg-stone-100 transition-colors";
+                div.innerHTML = `
+                    <div class="flex flex-col text-left">
+                        <span class="font-bold text-stone-700 text-sm">${loc.name}</span>
+                        <span class="text-xs text-stone-400">${this.getWeatherDesc(current.weathercode)}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">${this.getWeatherIcon(current.weathercode)}</span>
+                        <span class="font-bold text-stone-800">${Math.round(current.temperature)}°</span>
+                    </div>
+                `;
+                container.appendChild(div);
             }
         };
 
