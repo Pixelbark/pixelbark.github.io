@@ -1,130 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Garner Family Homepage</title>
-    <!-- Tailwind CSS CDN -->
+    <title>The Garner Family | Littlehaugh</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* Custom styles to ensure Inter font is applied and smooth scrolling */
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: #E2E8F0; /* Light gray text color */
-            background-color: #0F172A; /* Dark blue background for a modern feel (slate-950) */
-            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
-            padding-top: 5rem; /* Adjust body padding to make space for fixed navbar and countdown */
+    <!-- Fonts: Playfair Display (Headings) & Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        teal: {
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
         }
-        /* Style for interactive elements (buttons, links) */
+    </script>
+
+    <style>
+        body {
+            scroll-behavior: smooth;
+            padding-top: 5rem;
+        }
+        
         .btn-primary {
             display: inline-block;
             padding: 0.75rem 2rem;
-            border-radius: 9999px; /* Fully rounded corners */
-            background-color: #F97316; /* Orange 500 */
+            border-radius: 0.75rem; 
+            background-color: #0d9488;
             color: white;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2);
         }
+
         .btn-primary:hover {
-            background-color: #EA580C; /* Darker orange on hover (Orange 600) */
-            transform: translateY(-2px); /* Slight lift effect */
+            background-color: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.3);
         }
-        .section-heading {
-            font-size: 2.5rem; /* Equivalent to text-4xl */
-            font-weight: 800; /* Extra bold */
-            margin-bottom: 2rem;
-            color: #CBD5E0; /* Lighter gray for headings */
-        }
-        /* Custom utility for subtle shadow and rounded corners on cards */
+
         .card-style {
-            background-color: #1E293B; /* Slate 800 - dark blue for cards */
-            border-radius: 1rem; /* Rounded corners */
-            padding: 1.5rem; /* Slightly reduced padding to accommodate images better */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-            display: flex; /* Use flexbox for consistent alignment within cards */
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            border: 1px solid #e7e5e4;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Modal specific styles - kept for potential future use or if user wants option for larger view */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal.open {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-content {
-            position: relative;
-            background-color: #1E293B; /* Slate 800 for modal background */
-            margin: auto;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            animation: fadeInScale 0.3s ease-out forwards;
-        }
-        .modal-content img {
-            max-width: 100%;
-            max-height: 80vh; /* Adjust as needed */
-            object-fit: contain;
-            border-radius: 0.75rem;
-        }
-        .close-button {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            color: #CBD5E0; /* Slate 300 */
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: #FBBF24; /* Amber 400 for hover */
-            text-decoration: none;
+        .card-style:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
         }
 
-        /* Styles for inline images within panels */
         .panel-image {
-            width: 100%; /* Make image fill card width */
-            height: 180px; /* Fixed height for consistency */
-            object-fit: cover; /* Crop image to fit */
-            border-radius: 0.5rem; /* Slightly less rounded than card */
-            margin-bottom: 1rem;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            background-color: #f5f5f4;
+            cursor: zoom-in;
+            transition: opacity 0.3s ease;
         }
 
-        /* Responsive iframe for Google Calendar */
         .calendar-container {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* 4:3 Aspect Ratio (change to 56.25% for 16:9) */
+            padding-bottom: 75%;
             height: 0;
             overflow: hidden;
             border-radius: 0.75rem;
+            border: 1px solid #e7e5e4;
         }
+
         .calendar-container iframe {
             position: absolute;
             top: 0;
@@ -134,395 +123,584 @@
             border: 0;
         }
 
-        /* Keyframes for the flashing animation */
-        @keyframes flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; } /* Slightly fade out */
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #e7e5e4 10%, #e7e5e4 90%, transparent);
+            z-index: 0;
+        }
+        
+        .timeline-dot {
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2);
         }
 
-        /* Apply the flashing animation to the countdown banner */
-        .flash-animation {
-            animation: flash 1.5s infinite alternate; /* Flash every 1.5s, alternating directions */
+        /* Reveal on Scroll Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        /* Lightbox Styles */
+        #lightbox {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #lightbox.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #lightbox:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        /* Weather Styles */
+        .weather-card {
+            background: linear-gradient(to bottom right, #ffffff, #fafaf9);
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-stone-50 text-stone-800 antialiased font-sans">
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-slate-900 bg-opacity-90 backdrop-filter backdrop-blur-lg
-                px-4 sm:px-6 lg:px-8 py-4 shadow-lg rounded-b-xl mx-2 mt-2">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md px-6 py-4 shadow-sm border-b border-stone-200 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo/Site Title -->
-            <a href="#" class="text-2xl font-bold text-orange-400 hover:text-orange-300 transition-colors">The Garner Family</a>
-            <!-- Navigation Links for Desktop -->
-            <div class="hidden md:flex space-x-6">
-                <a href="#calendar" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Our Calendar</a>
-                <a href="#family-hub" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Family Hub</a>
-                <a href="#quotes" class="text-slate-300 hover:text-white transition-colors text-lg font-medium">Book Quotes</a>
+            <a href="#" class="text-2xl font-serif font-bold text-teal-800 tracking-tight hover:text-teal-600 transition-colors">The Garners</a>
+            
+            <div class="hidden md:flex space-x-10">
+                <a href="#milestones" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Our Journey</a>
+                <a href="#calendar" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Calendar</a>
+                <a href="#family-hub" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Family Hub</a>
+                <a href="#weather" class="text-stone-600 hover:text-teal-700 transition-colors font-medium text-sm uppercase tracking-wide">Weather</a>
             </div>
-            <!-- Mobile Menu Button (Hamburger) -->
-            <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
+
+            <button id="mobile-menu-button" class="md:hidden text-stone-600 hover:text-teal-700" aria-label="Toggle menu">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-slate-800 bg-opacity-95 rounded-b-lg shadow-xl py-4 transition-all duration-300 ease-in-out transform scale-y-0 origin-top">
-            <div class="flex flex-col items-center space-y-4">
-                <a href="#calendar" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Our Calendar</a>
-                <a href="#family-hub" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Family Hub</a>
-                <a href="#quotes" class="text-slate-300 hover:text-white text-xl font-medium block w-full text-center py-2">Book Quotes</a>
-            </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-xl border-t border-stone-100 py-6 px-4 space-y-4">
+            <a href="#milestones" class="block text-center text-lg font-serif text-stone-700 py-2">Our Journey</a>
+            <a href="#calendar" class="block text-center text-lg font-serif text-stone-700 py-2">Calendar</a>
+            <a href="#family-hub" class="block text-center text-lg font-serif text-stone-700 py-2">Family Hub</a>
+            <a href="#weather" class="block text-center text-lg font-serif text-stone-700 py-2">Weather</a>
         </div>
     </nav>
 
-    <!-- Countdown Timer -->
-    <div class="fixed top-[4.5rem] left-0 right-0 z-30 bg-blue-700 bg-opacity-90 text-white text-center py-2 px-4 shadow-md
-                rounded-b-lg mx-2 flash-animation"> <!-- Added flash-animation class here -->
-        <p class="text-sm sm:text-base font-semibold">
-            Days until the wedding: <span id="countdown" class="text-orange-300"></span>
-        </p>
-    </div>
-
-
     <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center text-center p-8 overflow-hidden
-                              bg-gradient-to-br from-slate-950 to-blue-900">
-        <!-- Abstract background pattern (optional, can be an SVG or image) -->
-        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/clean-textile.png');"></div>
+    <section class="relative min-h-[90vh] flex items-center justify-center text-center p-8 overflow-hidden">
+        <!-- Animated Background Pattern -->
+        <div class="absolute inset-0 z-0 bg-stone-100 opacity-50" style="background-image: radial-gradient(#d6d3d1 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-white/50 to-stone-50"></div>
+        
+        <!-- Floating shapes for liveliness -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-teal-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 0s;"></div>
+        <div class="absolute top-40 right-10 w-32 h-32 bg-rose-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-1/2 w-32 h-32 bg-amber-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 4s;"></div>
 
-        <div class="relative z-10 max-w-4xl mx-auto">
-            <!-- Family image/avatar - updated src to your uploaded image -->
-            <img src="https://pixelbark.github.io/images/Screenshot 2025-06-23 155251.png" alt="The Garner Family Avatar"
-                 class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-orange-400 shadow-xl object-cover">
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 animate-fade-in-up">
-                Welcome to the <span class="text-orange-400">Garner Family</span> Homepage!
+        <div class="relative z-10 max-w-4xl pt-10 animate-fade-in-up">
+            <div class="relative inline-block mb-10 group">
+                <div class="absolute -inset-2 bg-gradient-to-tr from-teal-200 to-rose-200 rounded-full blur-lg opacity-60 group-hover:opacity-80 transition duration-500"></div>
+                <img src="https://pixelbark.github.io/images/Screenshot 2025-06-23 155251.png" alt="Family Logo"
+                     class="relative w-40 h-40 md:w-52 md:h-52 rounded-full border-8 border-white shadow-xl object-cover hover:scale-105 transition-transform duration-500"
+                     onerror="this.src='https://ui-avatars.com/api/?name=Garner+Family&background=0d9488&color=fff'">
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-stone-900 mb-6 leading-tight">
+                Welcome to <br><span class="italic text-teal-700 relative inline-block">
+                    Littlehaugh
+                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-rose-300 -z-10" viewBox="0 0 200 9" fill="currentColor"><path d="M2.00025 6.99999C28.5284 3.33333 100.224 -2.00001 198.001 2.99999" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                </span>
             </h1>
-            <p class="text-xl sm:text-2xl lg:text-3xl text-slate-300 mb-8 max-w-2xl mx-auto animate-fade-in-up delay-100">
-                Sharing our adventures, moments, and everything in between.
-            </p>
-            <a href="#quotes" class="btn-primary animate-fade-in-up delay-200">See a Random Quote</a>
-        </div>
-    </section>
-
-    <!-- Our Family Calendar Section -->
-    <section id="calendar" class="py-20 px-8 bg-slate-900">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="section-heading text-center">Our Family Calendar</h2>
-            <div class="card-style">
-                <p class="text-lg text-slate-300 mb-6 text-center">
-                    Stay up-to-date with all our family events, appointments, and special dates!
-                </p>
-
-                <!-- Google Calendar Embed Updated -->
-                <div class="calendar-container w-full">
-                    <iframe src="https://calendar.google.com/calendar/embed?src=mattyxe%40gmail.com&ctz=Europe%2FLondon"
-                            style="border: 0" width="800" height="600" frameborder="0" scrolling="no" title="Google Calendar"></iframe>
-                </div>
-                <p class="text-sm text-slate-500 mt-4">
-                    (Note: This calendar displays the one associated with `mattyxe@gmail.com`.)
-                </p>
+            
+            <!-- Live Time Together Counter -->
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur border border-stone-200 px-6 py-2 rounded-full shadow-sm mb-8 text-sm md:text-base text-stone-600">
+                <span class="text-rose-500">❤️</span>
+                <span>Writing our story for</span>
+                <span id="years-together" class="font-bold text-teal-700">...</span>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#weather" class="btn-primary">Check Forecast</a>
+                <a href="#family-hub" class="px-8 py-3 rounded-xl border-2 border-stone-200 text-stone-600 hover:border-teal-600 hover:text-teal-700 transition-all font-semibold bg-white hover:bg-stone-50">Enter Family Hub</a>
             </div>
         </div>
     </section>
 
-    <!-- Family Hub Section -->
-    <section id="family-hub" class="py-20 px-8 bg-slate-950">
+    <!-- Weather Section -->
+    <section id="weather" class="py-24 px-6 bg-stone-50 border-t border-stone-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Adventure Planning</span>
+                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Local Forecasts</h2>
+                <p class="text-stone-500 mt-2">Live updates for home, town, and the hills.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="weather-grid">
+                <!-- Weather cards will be injected here -->
+                <div class="col-span-full text-center text-stone-400 py-12">Loading forecasts...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones / Timeline Section -->
+    <section id="milestones" class="py-24 px-6 bg-white border-y border-stone-100 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Our History</span>
+                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Milestones</h2>
+            </div>
+
+            <div class="relative">
+                <!-- Vertical Line -->
+                <div class="hidden md:block timeline-line"></div>
+
+                <div class="space-y-12 md:space-y-24">
+                    <!-- Event 1 -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center justify-between gap-8 reveal">
+                        <div class="md:w-5/12 text-center md:text-right order-2 md:order-1">
+                            <h3 class="text-2xl font-serif font-bold text-stone-800">The Beginning</h3>
+                            <p class="text-teal-600 font-medium mt-1">18th December 2006</p>
+                            <p class="text-stone-500 mt-2 text-sm">Where it all started. The first date that kicked off a lifetime of adventure.</p>
+                        </div>
+                        <div class="timeline-dot w-12 h-12 bg-rose-100 rounded-full border-4 border-white shadow-lg flex items-center justify-center order-1 md:order-2 shrink-0">
+                            <span class="text-xl">💘</span>
+                        </div>
+                        <div class="md:w-5/12 order-3"></div>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center justify-between gap-8 reveal">
+                        <div class="md:w-5/12 order-3 md:order-1"></div>
+                        <div class="timeline-dot w-12 h-12 bg-teal-100 rounded-full border-4 border-white shadow-lg flex items-center justify-center order-1 md:order-2 shrink-0">
+                            <span class="text-xl">👶</span>
+                        </div>
+                        <div class="md:w-5/12 text-center md:text-left order-2 md:order-3">
+                            <h3 class="text-2xl font-serif font-bold text-stone-800">Hetty Arrives</h3>
+                            <p class="text-teal-600 font-medium mt-1">18th March 2023</p>
+                            <p class="text-stone-500 mt-2 text-sm">Our world grew brighter and busier with the arrival of Hetty.</p>
+                        </div>
+                    </div>
+
+                    <!-- Event 3 -->
+                    <div class="timeline-item flex flex-col md:flex-row items-center justify-between gap-8 reveal">
+                        <div class="md:w-5/12 text-center md:text-right order-2 md:order-1">
+                            <h3 class="text-2xl font-serif font-bold text-stone-800">The Wedding</h3>
+                            <p class="text-teal-600 font-medium mt-1">4th November 2025</p>
+                            <p class="text-stone-500 mt-2 text-sm">A beautiful day of celebration. Officially Mr & Mrs Garner!</p>
+                            <span id="days-since-wedding" class="inline-block mt-2 text-xs font-bold text-rose-500 bg-rose-50 px-2 py-1 rounded-md">... days ago</span>
+                        </div>
+                        <div class="timeline-dot w-12 h-12 bg-amber-100 rounded-full border-4 border-white shadow-lg flex items-center justify-center order-1 md:order-2 shrink-0">
+                            <span class="text-xl">💍</span>
+                        </div>
+                        <div class="md:w-5/12 order-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendar -->
+    <section id="calendar" class="py-24 px-6 bg-stone-50">
         <div class="max-w-6xl mx-auto">
-            <h2 class="section-heading text-center">Our Family Hub: Memories & Links</h2>
+            <div class="text-center mb-12 reveal">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Planning Ahead</span>
+                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">Family Schedule</h2>
+            </div>
+            
+            <div class="bg-white p-4 md:p-8 rounded-2xl shadow-xl border border-stone-100 max-w-5xl mx-auto reveal delay-100">
+                <div class="calendar-container shadow-inner">
+                    <iframe loading="lazy" src="https://calendar.google.com/calendar/embed?src=mattyxe%40gmail.com&ctz=Europe%2FLondon"
+                            title="Google Calendar"></iframe>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-500">
+                        Primary: mattyxe@gmail.com
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Family Hub -->
+    <section id="family-hub" class="py-24 px-6 bg-white border-t border-stone-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-xs">Quick Links & Memories</span>
+                <h2 class="text-4xl font-serif font-bold text-stone-900 mt-2">The Hub</h2>
+                <p class="text-stone-500 mt-4 max-w-lg mx-auto">Our central dashboard for health tracking, outdoor activities, and capturing small moments.</p>
+            </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <!-- Panel 1: External Website Link - MyFitnessPal -->
-                <div class="card-style">
-                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/>
-                    </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">MyFitnessPal</h3>
-                    <p class="text-slate-400 mb-4">Track our family's health and fitness goals.</p>
-                    <a href="https://www.myfitnesspal.com" target="_blank" class="btn-primary text-sm">Visit MyFitnessPal</a>
+                <!-- MyFitnessPal -->
+                <div class="card-style group reveal delay-100">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
+                        <svg class="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">MyFitnessPal</h3>
+                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Track our nutrition and collective fitness journey towards better health.</p>
+                    <a href="https://www.myfitnesspal.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Launch Tracker</a>
                 </div>
 
-                <!-- Panel 2: Direct Random Photo -->
-                <div class="card-style">
-                    <h3 class="2xl font-bold text-slate-200 mb-2">A Family Memory</h3>
-                    <img id="randomPhoto1" src="" alt="Family Memory" class="panel-image">
-                    <p class="text-slate-400 text-sm mb-4">A random snapshot from our collection.</p>
-                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto1">Refresh Photo</button>
+                <!-- Random Photo 1 -->
+                <div class="card-style !p-4 bg-stone-50 rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-200">
+                    <div class="relative w-full">
+                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
+                        <img id="photo1" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
+                    </div>
+                    <div class="flex justify-between items-center w-full px-2 mt-auto">
+                        <h3 class="font-serif font-bold text-stone-800 text-lg">Snapshot</h3>
+                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Refresh
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Panel 3: External Website Link - Garmin Connect -->
-                <div class="card-style">
-                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Garmin Connect</h3>
-                    <p class="text-slate-400 mb-4">Sync and analyze our outdoor activities and workouts.</p>
-                    <a href="https://connect.garmin.com" target="_blank" class="btn-primary text-sm">Visit Garmin Connect</a>
+                <!-- Garmin -->
+                <div class="card-style group reveal delay-300">
+                    <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-teal-100 transition-colors">
+                        <svg class="w-7 h-7 text-teal-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">Garmin Connect</h3>
+                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Analysing our walks, runs, and outdoor activities in the countryside.</p>
+                    <a href="https://connect.garmin.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Open Connect</a>
                 </div>
 
-                <!-- Panel 4: Direct Random Photo -->
-                <div class="card-style">
-                    <h3 class="2xl font-bold text-slate-200 mb-2">Another Family Moment</h3>
-                    <img id="randomPhoto2" src="" alt="Another Family Memory" class="panel-image">
-                    <p class="text-slate-400 text-sm mb-4">Click refresh to see another!</p>
-                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto2">Refresh Photo</button>
+                <!-- Random Photo 2 -->
+                <div class="card-style !p-4 bg-stone-50 -rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-400">
+                    <div class="relative w-full">
+                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
+                        <img id="photo2" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
+                    </div>
+                    <div class="flex justify-between items-center w-full px-2 mt-auto">
+                        <h3 class="font-serif font-bold text-stone-800 text-lg">Memory</h3>
+                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo2">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Refresh
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Panel 5: External Website Link - YouTube -->
-                <div class="card-style">
-                    <svg class="w-16 h-16 text-blue-400 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
-                    </svg>
-                    <h3 class="text-2xl font-bold text-slate-200 mb-2">Our Favorite YouTube Channels</h3>
-                    <p class="text-slate-400 mb-4">Videos for family entertainment and learning.</p>
-                    <a href="https://www.youtube.com" target="_blank" class="btn-primary text-sm">Visit YouTube</a>
+                <!-- YouTube -->
+                <div class="card-style group reveal delay-500">
+                    <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-100 transition-colors">
+                        <svg class="w-7 h-7 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-2 text-stone-900">Entertainment</h3>
+                    <p class="text-stone-500 text-sm mb-6 flex-grow leading-relaxed">Our curated collection of learning and fun channels for downtime.</p>
+                    <a href="https://www.youtube.com" target="_blank" class="text-teal-600 font-bold hover:text-teal-800 border-b-2 border-teal-100 hover:border-teal-600 transition-all mt-auto pb-1">Watch Now</a>
                 </div>
 
-                <!-- Panel 6: Direct Random Photo -->
-                <div class="card-style">
-                    <h3 class="2xl font-bold text-slate-200 mb-2">Snapshot of Joy</h3>
-                    <img id="randomPhoto3" src="" alt="Snapshot of Joy" class="panel-image">
-                    <p class="text-slate-400 text-sm mb-4">A sweet memory to brighten your day.</p>
-                    <button class="btn-primary text-sm refresh-photo-btn" data-target="randomPhoto3">Refresh Photo</button>
+                <!-- Random Photo 3 -->
+                <div class="card-style !p-4 bg-stone-50 rotate-1 hover:rotate-0 transition-transform duration-300 reveal delay-600">
+                    <div class="relative w-full">
+                        <div class="absolute inset-0 bg-stone-900/5 rounded-lg pointer-events-none"></div>
+                        <img id="photo3" src="" alt="Family Memory" class="panel-image !mb-4 shadow-sm" loading="lazy">
+                    </div>
+                    <div class="flex justify-between items-center w-full px-2 mt-auto">
+                        <h3 class="font-serif font-bold text-stone-800 text-lg">Joy</h3>
+                        <button class="text-xs font-semibold text-stone-400 hover:text-teal-600 refresh-btn flex items-center gap-1 transition-colors" data-target="photo3">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Refresh
+                        </button>
+                    </div>
                 </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Julia Donaldson Quotes Section -->
-    <section id="quotes" class="py-20 px-8 bg-slate-900">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="section-heading text-center">Favorite Julia Donaldson Lines</h2>
-            <div class="card-style text-center">
-                <p id="quote-text" class="text-lg italic text-slate-300 mb-4">
-                    "A mouse took a stroll through the deep dark wood."
-                </p>
-                <p id="quote-source" class="text-sm font-semibold text-orange-400 mb-6">
-                    - The Gruffalo (1999)
-                </p>
-                <button id="generate-quote-btn" class="btn-primary">Generate New Quote</button>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-8 bg-slate-950 text-center text-slate-500 text-sm rounded-t-xl mx-2 mb-2">
-        &copy; <span id="current-year"></span> The Garner Family. All rights reserved.
+    <footer class="py-12 bg-stone-900 text-center">
+        <div class="flex justify-center items-center gap-2 mb-4 opacity-50">
+             <div class="w-2 h-2 rounded-full bg-stone-500"></div>
+             <div class="w-2 h-2 rounded-full bg-stone-500"></div>
+             <div class="w-2 h-2 rounded-full bg-stone-500"></div>
+        </div>
+        <p class="text-stone-400 text-sm font-medium tracking-wide">&copy; <span id="year"></span> The Garner Family | Littlehaugh</p>
+        <p class="text-stone-600 text-xs mt-2">Built with ❤️ for memories.</p>
     </footer>
 
-    <!-- Random Photo Modal - KEPT IN CASE USER WANTS A LARGER VIEW OPTION LATER -->
-    <div id="randomPhotoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeModalButton">&times;</span>
-            <img id="modalImage" src="" alt="Random Family Photo" class="rounded-lg shadow-xl">
-        </div>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-[60] bg-stone-900/95 backdrop-blur-md hidden flex items-center justify-center p-4 cursor-zoom-out">
+        <img id="lightbox-img" src="" alt="Full size" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl scale-95 transition-transform duration-300">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white text-5xl leading-none font-thin">&times;</button>
+        <p class="absolute bottom-6 left-0 right-0 text-center text-white/50 text-sm font-medium">Click anywhere to close</p>
     </div>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        /**
+         * CONFIGURATION
+         */
+        const CONFIG = {
+            dates: {
+                dating: '2006-12-18T00:00:00',
+                wedding: '2025-11-04T00:00:00'
+            },
+            photos: [
+                "https://pixelbark.github.io/images/IMG_4941.jpg",
+                "https://pixelbark.github.io/images/IMG_4942.jpg",
+                "https://pixelbark.github.io/images/IMG_4944.jpg",
+                "https://pixelbark.github.io/images/PXL_20250412_130555178.jpg",
+                "https://pixelbark.github.io/images/PXL_20250413_142258849.jpg",
+                "https://pixelbark.github.io/images/IMG_4976.jpg",
+                "https://pixelbark.github.io/images/IMG_5186.jpg",
+                "https://pixelbark.github.io/images/IMG_5203.jpg",
+                "https://pixelbark.github.io/images/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
+                "https://pixelbark.github.io/images/PXL_20250510_135947119.jpg",
+                "https://pixelbark.github.io/images/PXL_20250622_130339779.jpg"
+            ],
+            weather: {
+                locations: [
+                    { name: "Rothes (Home)", lat: 57.5295, lon: -3.2082 },
+                    { name: "Elgin", lat: 57.6498, lon: -3.3186 },
+                    { name: "Aviemore (Hills)", lat: 57.1882, lon: -3.8294, highlightWind: true }
+                ]
+            }
+        };
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        /**
+         * LOGIC
+         */
+        const App = {
+            init() {
+                this.updateWeddingCountdown();
+                this.updateYearsTogether();
+                this.initWeather();
+                ['photo1', 'photo2', 'photo3'].forEach(id => this.setRandomPhoto(id));
+                document.getElementById('year').innerText = new Date().getFullYear();
+                this.setupScrollReveal();
+                this.bindEvents();
+            },
+
+            bindEvents() {
+                // Mobile Menu
+                document.getElementById('mobile-menu-button').onclick = () => {
+                    document.getElementById('mobile-menu').classList.toggle('hidden');
+                };
+
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.onclick = () => document.getElementById('mobile-menu').classList.add('hidden');
                 });
 
-                // Close mobile menu if open after clicking a link
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.classList.remove('scale-y-100');
-                    mobileMenu.classList.add('scale-y-0');
+                // Navbar Scroll Effect
+                window.addEventListener('scroll', () => {
+                    const nav = document.getElementById('navbar');
+                    if (window.scrollY > 50) {
+                        nav.classList.add('shadow-md', 'bg-white/95');
+                        nav.classList.remove('shadow-sm', 'bg-white/90');
+                    } else {
+                        nav.classList.remove('shadow-md', 'bg-white/95');
+                        nav.classList.add('shadow-sm', 'bg-white/90');
+                    }
+                });
+
+                // Refresh Buttons
+                document.querySelectorAll('.refresh-btn').forEach(btn => {
+                    btn.onclick = () => this.setRandomPhoto(btn.dataset.target);
+                });
+
+                // Lightbox
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+
+                document.querySelectorAll('.panel-image').forEach(img => {
+                    img.onclick = (e) => {
+                        lightboxImg.src = e.target.src;
+                        lightbox.classList.remove('hidden');
+                        setTimeout(() => lightboxImg.classList.replace('scale-95', 'scale-100'), 10);
+                    };
+                });
+
+                const closeLightbox = () => {
+                    lightboxImg.classList.replace('scale-100', 'scale-95');
+                    setTimeout(() => lightbox.classList.add('hidden'), 200);
+                };
+
+                lightbox.onclick = closeLightbox;
+                document.getElementById('lightbox-close').onclick = closeLightbox;
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+                });
+            },
+
+            setupScrollReveal() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            },
+
+            updateWeddingCountdown() {
+                const target = new Date(CONFIG.dates.wedding);
+                const now = new Date();
+                const diff = now - target;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                
+                const display = document.getElementById('days-since-wedding');
+                if (display) display.innerText = `${days} days ago`;
+            },
+
+            updateYearsTogether() {
+                const start = new Date(CONFIG.dates.dating);
+                const now = new Date();
+                
+                let years = now.getFullYear() - start.getFullYear();
+                let m = now.getMonth() - start.getMonth();
+                if (m < 0 || (m === 0 && now.getDate() < start.getDate())) {
+                    years--;
                 }
-            });
-        });
+                
+                document.getElementById('years-together').innerText = `${years} years`;
+            },
 
-        // Toggle mobile menu visibility
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+            setRandomPhoto(id) {
+                const img = document.getElementById(id);
+                if (!img) return;
+                
+                img.style.opacity = 0.5;
+                setTimeout(() => {
+                    const randomSrc = CONFIG.photos[Math.floor(Math.random() * CONFIG.photos.length)];
+                    img.src = randomSrc;
+                    img.style.opacity = 1;
+                }, 200);
+            },
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('scale-y-100');
-            mobileMenu.classList.toggle('scale-y-0');
-        });
+            // Weather Logic using Open-Meteo API
+            async initWeather() {
+                const container = document.getElementById('weather-grid');
+                if (!container) return;
 
-        // Update current year in the footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+                container.innerHTML = ''; // Clear loading text
 
-        // --- Countdown Timer Functionality ---
-        const countdownElement = document.getElementById('countdown');
-        const targetDate = new Date('2025-11-04T00:00:00').getTime(); // November 4th, 2025, 00:00:00
+                for (const loc of CONFIG.weather.locations) {
+                    try {
+                        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max&timezone=Europe%2FLondon`;
+                        const res = await fetch(url);
+                        const data = await res.json();
+                        
+                        this.renderWeatherCard(container, loc, data);
+                    } catch (error) {
+                        console.error("Weather fetch failed", error);
+                        container.innerHTML += `<div class="p-4 text-red-500">Failed to load ${loc.name}</div>`;
+                    }
+                }
+            },
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+            getWeatherIcon(code) {
+                // WMO Code mapping to simple emojis
+                const map = {
+                    0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+                    45: '🌫️', 48: '🌫️',
+                    51: 'DRIZZLE', 53: 'DRIZZLE', 55: 'DRIZZLE',
+                    61: '🌧️', 63: '🌧️', 65: '🌧️',
+                    71: '❄️', 73: '❄️', 75: '❄️',
+                    80: '🌦️', 81: '🌦️', 82: '⛈️',
+                    95: '⛈️', 96: '⛈️', 99: '⛈️'
+                };
+                if (map[code] === 'DRIZZLE') return '🌦️';
+                return map[code] || '🌡️';
+            },
 
-            // Time calculations for days
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            getWeatherDesc(code) {
+                const map = {
+                    0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+                    45: 'Fog', 48: 'Depositing rime fog',
+                    51: 'Light drizzle', 53: 'Mod. drizzle', 55: 'Dense drizzle',
+                    61: 'Slight rain', 63: 'Mod. rain', 65: 'Heavy rain',
+                    71: 'Slight snow', 73: 'Mod. snow', 75: 'Heavy snow',
+                    80: 'Slight showers', 81: 'Mod. showers', 82: 'Violent showers',
+                    95: 'Thunderstorm', 96: 'Thunderstorm & hail'
+                };
+                return map[code] || 'Unknown';
+            },
 
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownElement.textContent = "It's here!";
-            } else {
-                countdownElement.textContent = days; // Display only days
+            renderWeatherCard(container, loc, data) {
+                const current = data.current_weather;
+                const daily = data.daily;
+                
+                // Forecast Items (Today + next 3 days)
+                let forecastHTML = '';
+                const today = new Date().getDay();
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                
+                // Show Today + 3 days (indices 0 to 3)
+                for(let i=0; i<4; i++) {
+                    const dayName = i === 0 ? 'Today' : days[(today + i) % 7];
+                    const icon = this.getWeatherIcon(daily.weathercode[i]);
+                    const max = Math.round(daily.temperature_2m_max[i]);
+                    const min = Math.round(daily.temperature_2m_min[i]);
+                    const wind = Math.round(daily.windspeed_10m_max[i]);
+                    
+                    // Highlight wind if requested (for Hills)
+                    const windDisplay = loc.highlightWind 
+                        ? `<span class="text-xs ${wind > 30 ? 'text-red-600 font-bold' : 'text-stone-400'}">💨 ${wind}km/h</span>`
+                        : '';
+
+                    forecastHTML += `
+                        <div class="flex justify-between items-center py-2 border-b border-stone-100 last:border-0">
+                            <span class="w-12 text-sm font-medium text-stone-500 text-left">${dayName}</span>
+                            <span class="text-lg">${icon}</span>
+                            <div class="text-right">
+                                <span class="text-sm font-bold text-stone-700">${max}°</span>
+                                <span class="text-xs text-stone-400 ml-1">${min}°</span>
+                            </div>
+                            ${windDisplay ? `<div class="w-16 text-right">${windDisplay}</div>` : ''}
+                        </div>
+                    `;
+                }
+
+                const card = document.createElement('div');
+                card.className = "card-style weather-card reveal text-left items-stretch !p-0 overflow-hidden";
+                card.innerHTML = `
+                    <div class="bg-teal-600 p-4 text-white">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-serif font-bold text-lg">${loc.name}</h3>
+                            <span class="text-3xl">${this.getWeatherIcon(current.weathercode)}</span>
+                        </div>
+                        <div class="flex items-end gap-2 mt-2">
+                            <span class="text-4xl font-bold">${Math.round(current.temperature)}°</span>
+                            <span class="text-teal-100 text-sm mb-1">${this.getWeatherDesc(current.weathercode)}</span>
+                        </div>
+                         ${loc.highlightWind ? `<div class="mt-2 text-xs bg-teal-700 inline-block px-2 py-1 rounded">Current Wind: ${current.windspeed} km/h</div>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-1">
+                            ${forecastHTML}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+                
+                // Trigger animation for new element
+                setTimeout(() => card.classList.add('active'), 100);
             }
-        }
+        };
 
-        // Update the countdown initially and then every hour
-        updateCountdown();
-        const countdownInterval = setInterval(updateCountdown, 1000 * 60 * 60);
-
-        // --- Random Photo Functionality (Inline Display) ---
-        const photoUrls = [
-            "https://pixelbark.github.io/images/IMG_4941.jpg",
-            "https://pixelbark.github.io/images/IMG_4942.jpg",
-            "https://pixelbark.github.io/images/IMG_4944.jpg",
-            "https://pixelbark.github.io/images/PXL_20250412_130555178.jpg",
-            "https://pixelbark.github.io/images/PXL_20250413_142258849.jpg",
-            "https://pixelbark.github.io/images/IMG_4976.jpg",
-            "https://pixelbark.github.io/images/IMG_5186.jpg",
-            "https://pixelbark.github.io/images/IMG_5203.jpg",
-            "https://pixelbark.github.io/images/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
-            "https://pixelbark.github.io/images/PXL_20250510_135947119.jpg",
-            "https://pixelbark.github.io/images/PXL_20250622_130339779.jpg"
-        ];
-
-        // Function to load a random photo into a specific image element
-        function loadRandomPhoto(imgElementId) {
-            const imgElement = document.getElementById(imgElementId);
-            if (imgElement) {
-                const randomIndex = Math.floor(Math.random() * photoUrls.length);
-                imgElement.src = photoUrls[randomIndex];
-            }
-        }
-
-        // Load initial random photos when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            loadRandomPhoto('randomPhoto1');
-            loadRandomPhoto('randomPhoto2');
-            loadRandomPhoto('randomPhoto3');
-
-            // Add event listeners for refresh buttons
-            document.querySelectorAll('.refresh-photo-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.dataset.target;
-                    loadRandomPhoto(targetId);
-                });
-            });
-        });
-
-        // --- Julia Donaldson Quotes Functionality ---
-        const juliaDonaldsonQuotes = [
-            {
-                quote: "A mouse took a stroll through the deep dark wood.",
-                title: "The Gruffalo",
-                year: 1999
-            },
-            {
-                quote: "A snail, a snail, a tiny snail, a tiny snail with a very long trail.",
-                title: "The Snail and the Whale",
-                year: 2003
-            },
-            {
-                quote: "I'm the Gruffalo's Child and I'm fearfully grand!",
-                title: "The Gruffalo's Child",
-                year: 2004
-            },
-            {
-                quote: "What's that afoot on the branch above? It's Zog, the dragon, who's keen to learn.",
-                title: "Zog",
-                year: 2010
-            },
-            {
-                quote: "There's no such thing as a Gruffalo.",
-                title: "The Gruffalo",
-                year: 1999
-            },
-            {
-                quote: "He flew into the cave, and found a witch, stirring a pot, and a bubbling ditch.",
-                title: "Room on the Broom",
-                year: 2001
-            },
-            {
-                quote: "A dragon with a heart of gold, a princess brave and bold.",
-                title: "Zog and the Flying Doctors",
-                year: 2017
-            },
-            {
-                quote: "Then take me for a ride, said the snail. I'm longing to explore!",
-                title: "The Snail and the Whale",
-                year: 2003
-            },
-            {
-                quote: "But Mouse said, 'No, I'm going to find my own.'",
-                title: "A Squash and a Squeeze",
-                year: 1993
-            },
-            {
-                quote: "The witch tapped her broomstick, and whoosh! they were gone.",
-                title: "Room on the Broom",
-                year: 2001
-            }
-        ];
-
-        const quoteTextElement = document.getElementById('quote-text');
-        const quoteSourceElement = document.getElementById('quote-source');
-        const generateQuoteBtn = document.getElementById('generate-quote-btn');
-
-        function displayRandomQuote() {
-            const randomIndex = Math.floor(Math.random() * juliaDonaldsonQuotes.length);
-            const selectedQuote = juliaDonaldsonQuotes[randomIndex];
-            quoteTextElement.textContent = `"${selectedQuote.quote}"`;
-            quoteSourceElement.textContent = `- ${selectedQuote.title} (${selectedQuote.year})`;
-        }
-
-        // Display a quote on page load
-        document.addEventListener('DOMContentLoaded', displayRandomQuote);
-
-        // Add event listener to the button
-        generateQuoteBtn.addEventListener('click', displayRandomQuote);
-
-
-        // --- Modal Functionality (kept but not actively used by the new photo panels) ---
-        const randomPhotoModal = document.getElementById('randomPhotoModal');
-        const modalImage = document.getElementById('modalImage');
-        const closeModalButton = document.getElementById('closeModalButton');
-
-        function openModalWithImage(imageUrl) {
-            modalImage.src = imageUrl;
-            randomPhotoModal.classList.add('open');
-        }
-
-        function closeRandomPhotoModal() {
-            randomPhotoModal.classList.remove('open');
-        }
-
-        closeModalButton.addEventListener('click', closeRandomPhotoModal);
-        randomPhotoModal.addEventListener('click', (event) => {
-            if (event.target === randomPhotoModal) {
-                closeRandomPhotoModal();
-            }
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && randomPhotoModal.classList.contains('open')) {
-                closeRandomPhotoModal();
-            }
-        });
+        // Boot
+        document.addEventListener('DOMContentLoaded', () => App.init());
     </script>
 </body>
 </html>
