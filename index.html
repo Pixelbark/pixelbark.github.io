@@ -1,371 +1,752 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Littlehaugh | The Garner Family</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font: Plus Jakarta Sans (Modern, geometric, friendly) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                        canvas: '#F3F4F6', // Gray 100
-                        card: '#FFFFFF',
-                        primary: '#18181B', // Zinc 900
-                        secondary: '#71717A', // Zinc 500
-                        accent: '#3B82F6', // Blue 500
-                    },
-                    boxShadow: {
-                        'bento': '0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0,0,0,0.05)',
-                        'bento-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025), 0 0 0 1px rgba(0,0,0,0.05)',
-                    }
-                }
-            }
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Littlehaugh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #F3F4F6;
-            color: #18181B;
-        }
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* The Grid System */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 1.5rem;
-            padding: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+:root {
+  --bg:        #2C2A26;
+  --surface:   #38352F;
+  --surface2:  #423F38;
+  --surface3:  #4E4A42;
+  --border:    #5A5650;
+  --amber:     #E8A030;
+  --amber-soft:#F5C878;
+  --cream:     #F0EAD8;
+  --text:      #DDD8CC;
+  --muted:     #8A8478;
+  --green:     #7AB87A;
+  --red:       #D97060;
+  --blue:      #6FA8C8;
+}
 
-        @media (min-width: 768px) {
-            .bento-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+html, body { height:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:'Lora',serif; }
 
-        @media (min-width: 1024px) {
-            .bento-grid {
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: auto auto auto; 
-            }
-        }
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.03;
+}
 
-        /* Bento Card Base */
-        .bento-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0,0,0,0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background: radial-gradient(ellipse 55% 45% at 18% 85%, rgba(232,160,48,0.08) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 82% 15%, rgba(111,168,200,0.06) 0%, transparent 60%);
+}
 
-        .bento-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025), 0 0 0 1px rgba(0,0,0,0.05);
-        }
+.shell {
+  position:relative; z-index:1;
+  display:grid;
+  grid-template-columns: 270px 1fr 295px;
+  height:100vh; overflow:hidden;
+}
 
-        /* Specific Spans */
-        .col-span-2 { grid-column: span 2; }
-        .row-span-2 { grid-row: span 2; }
-        
-        @media (max-width: 1024px) {
-            .col-span-2, .row-span-2 { grid-column: span 1; grid-row: span 1; }
-            .md\:col-span-2 { grid-column: span 2; }
-        }
-        @media (max-width: 768px) {
-            .md\:col-span-2 { grid-column: span 1; }
-        }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
 
-        /* Utilities */
-        .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
+.section-label {
+  font-family:'DM Mono',monospace; font-size:0.53rem;
+  letter-spacing:0.22em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:0.55rem;
+}
 
-        .weather-gradient {
-            background: linear-gradient(135deg, #E0F2FE 0%, #F0F9FF 100%);
-        }
+.panel-hd {
+  padding:0.9rem 1.2rem 0.8rem;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0;
+}
 
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
+/* ── SIDEBAR ── */
+.sidebar {
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column;
+  overflow:hidden; position:relative;
+}
 
-        /* Progress Bar Animation */
-        @keyframes fillProgress {
-            from { width: 0; }
-        }
-    </style>
+@keyframes glow { 0%,100%{opacity:.4} 50%{opacity:.9} }
+.sidebar-glow {
+  position:absolute; bottom:-80px; left:-80px; width:260px; height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,160,48,0.13) 0%, transparent 65%);
+  animation: glow 9s ease-in-out infinite; pointer-events:none;
+}
+
+.sb-top { padding:1.4rem 1.2rem 1rem; border-bottom:1px solid var(--border); flex-shrink:0; }
+.wordmark { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; line-height:1; color:var(--amber); letter-spacing:0.04em; }
+.wordmark-sub { font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.25em; color:var(--muted); text-transform:uppercase; margin-top:0.15rem; }
+.clock-time { font-family:'Bebas Neue',sans-serif; font-size:4.2rem; line-height:1; color:var(--cream); letter-spacing:0.02em; margin-top:0.85rem; }
+.clock-date { font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.08em; margin-top:0.2rem; }
+.greeting { font-size:0.78rem; font-style:italic; color:var(--muted); margin-top:0.4rem; }
+
+.sb-section { padding:0.85rem 1.2rem; border-bottom:1px solid var(--border); flex-shrink:0; }
+
+/* Photo of the Day */
+.photo-section { padding:0; border-bottom:1px solid var(--border); flex-shrink:0; position:relative; overflow:hidden; height:180px; cursor:pointer; }
+.photo-section img { width:100%; height:100%; object-fit:cover; transition:opacity 0.6s ease, transform 0.6s ease; display:block; }
+.photo-section:hover img { transform:scale(1.03); }
+.photo-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(30,26,20,0.7) 0%, transparent 50%); pointer-events:none; }
+.photo-label { position:absolute; bottom:0; left:0; right:0; padding:0.6rem 1.2rem; display:flex; justify-content:space-between; align-items:flex-end; }
+.photo-title { font-family:'DM Mono',monospace; font-size:0.5rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(240,234,216,0.7); }
+.photo-refresh { font-family:'DM Mono',monospace; font-size:0.5rem; color:rgba(240,234,216,0.45); letter-spacing:0.1em; }
+@keyframes photoFade { from{opacity:0} to{opacity:1} }
+.photo-section img.loaded { animation: photoFade 0.5s ease; }
+
+/* Milestones */
+.milestone { display:flex; justify-content:space-between; align-items:baseline; padding:0.35rem 0; border-bottom:1px solid rgba(90,86,80,0.35); }
+.milestone:last-child { border-bottom:none; }
+.ms-name { font-size:0.76rem; color:var(--text); }
+.ms-val { font-family:'DM Mono',monospace; font-size:0.66rem; color:var(--amber); }
+
+/* Shopping */
+.sb-shop { padding:0.85rem 1.2rem; border-bottom:1px solid var(--border); flex:1; overflow-y:auto; min-height:0; }
+.shop-row { display:flex; gap:0.35rem; margin-bottom:0.55rem; }
+.shop-input { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.38rem 0.6rem; color:var(--text); font-family:'Lora',serif; font-size:0.73rem; outline:none; transition:border-color 0.2s; }
+.shop-input:focus { border-color:var(--amber); }
+.shop-input::placeholder { color:var(--muted); }
+.shop-add { background:var(--amber); border:none; border-radius:6px; width:26px; cursor:pointer; color:var(--bg); font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:opacity 0.2s; }
+.shop-add:hover { opacity:0.8; }
+.shop-item { display:flex; align-items:center; gap:0.45rem; padding:0.3rem 0; border-bottom:1px solid rgba(90,86,80,0.25); font-size:0.76rem; cursor:pointer; }
+.shop-item.done { opacity:0.4; text-decoration:line-through; }
+.shop-check { width:13px; height:13px; border-radius:3px; border:1px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+.shop-item.done .shop-check { background:var(--green); border-color:var(--green); }
+.shop-del { margin-left:auto; opacity:0; font-size:0.65rem; color:var(--red); cursor:pointer; transition:opacity 0.2s; padding:0 0.15rem; }
+.shop-item:hover .shop-del { opacity:1; }
+
+/* Quick Links */
+.quick-links { padding:0.7rem 1.2rem; display:flex; gap:0.35rem; flex-wrap:wrap; flex-shrink:0; }
+.qlink { display:flex; align-items:center; gap:0.35rem; padding:0.3rem 0.55rem; background:var(--surface2); border:1px solid var(--border); border-radius:6px; text-decoration:none; color:var(--muted); font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.05em; text-transform:uppercase; transition:all 0.2s; }
+.qlink:hover { border-color:var(--amber); color:var(--amber); }
+.qlink svg { width:11px; height:11px; flex-shrink:0; }
+
+/* ── CENTRE ── */
+.centre { display:grid; grid-template-rows:auto 1fr auto auto; overflow:hidden; border-right:1px solid var(--border); }
+
+.stats-bar { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--border); flex-shrink:0; }
+.stat-cell { padding:0.9rem 1.1rem; border-right:1px solid var(--border); }
+.stat-cell:last-child { border-right:none; }
+.stat-label { font-family:'DM Mono',monospace; font-size:0.5rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:0.2rem; }
+.stat-val { font-family:'Bebas Neue',sans-serif; font-size:1.85rem; line-height:1; color:var(--cream); letter-spacing:0.02em; }
+.stat-val.amber { color:var(--amber); }
+.stat-val.green { color:var(--green); }
+.stat-sub { font-size:0.62rem; font-style:italic; color:var(--muted); margin-top:0.1rem; }
+
+.cal-panel { overflow:hidden; position:relative; display:flex; flex-direction:column; }
+.cal-panel iframe { flex:1; border:none; filter:invert(1) hue-rotate(180deg) saturate(0.42) brightness(0.87); opacity:0.88; }
+
+.forecast-strip { border-top:1px solid var(--border); padding:0.65rem 1.1rem; display:grid; grid-template-columns:repeat(5,1fr); gap:0.45rem; flex-shrink:0; }
+.fc-day { background:var(--surface2); border:1px solid var(--border); border-radius:7px; padding:0.45rem 0.2rem; text-align:center; }
+.fc-dn { font-family:'DM Mono',monospace; font-size:0.5rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.fc-ic { font-size:1rem; margin:0.2rem 0; display:block; }
+.fc-hi { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:var(--cream); }
+.fc-lo { font-family:'DM Mono',monospace; font-size:0.58rem; color:var(--muted); }
+
+.fridge-bar { border-top:1px solid var(--border); display:grid; grid-template-columns:80px 1fr; flex-shrink:0; }
+.fridge-label { padding:0.65rem 0.9rem; border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; gap:0.15rem; }
+.fridge-emoji { font-size:1.1rem; }
+.fridge-title { font-family:'DM Mono',monospace; font-size:0.48rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); }
+.fridge-input { background:transparent; border:none; outline:none; color:var(--text); font-family:'Lora',serif; font-size:0.8rem; padding:0.65rem 1.1rem; width:100%; resize:none; font-style:italic; }
+.fridge-input::placeholder { color:var(--surface3); }
+
+/* ── RIGHT ── */
+.right { display:flex; flex-direction:column; overflow:hidden; }
+.right-scroll { flex:1; overflow-y:auto; scrollbar-width:none; }
+.right-scroll::-webkit-scrollbar { display:none; }
+
+.r-card { padding:1.1rem 1.2rem; border-bottom:1px solid var(--border); }
+
+/* Hetty */
+.hetty-row { display:flex; gap:0.45rem; margin-top:0.5rem; }
+.h-stat { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:7px; padding:0.5rem; text-align:center; }
+.h-stat .hl { font-family:'DM Mono',monospace; font-size:0.48rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.h-stat .hv { font-family:'Bebas Neue',sans-serif; font-size:1.65rem; color:var(--amber); line-height:1.1; }
+
+/* Weather */
+.weather-hero { padding:1.1rem 1.2rem; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+.weather-hero::before { content:''; position:absolute; top:-50px; right:-50px; width:170px; height:170px; border-radius:50%; background:radial-gradient(circle, rgba(232,160,48,0.09) 0%, transparent 70%); pointer-events:none; }
+.w-loc { font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); }
+.w-temp-row { display:flex; align-items:baseline; gap:0.5rem; margin:0.25rem 0; }
+.w-big { font-family:'Bebas Neue',sans-serif; font-size:4.5rem; line-height:1; color:var(--cream); letter-spacing:0.02em; }
+.w-feels { font-size:0.72rem; font-style:italic; color:var(--muted); align-self:flex-end; padding-bottom:0.45rem; }
+.w-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.35rem; margin-top:0.6rem; }
+.w-cell { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.45rem 0.55rem; }
+.w-cell .wl { font-family:'DM Mono',monospace; font-size:0.48rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.w-cell .wv { font-size:0.78rem; font-weight:600; color:var(--text); margin-top:0.08rem; }
+
+/* Hills */
+.hills-score { display:flex; align-items:center; gap:0.85rem; margin:0.5rem 0; }
+.score-ring { width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.4rem; border:3px solid var(--border); transition:all 0.5s; flex-shrink:0; }
+.score-ring.good { border-color:var(--green); color:var(--green); }
+.score-ring.caution { border-color:var(--amber); color:var(--amber); }
+.score-ring.bad { border-color:var(--red); color:var(--red); }
+.hills-verdict { font-size:0.78rem; font-style:italic; color:var(--muted); line-height:1.4; }
+.hills-verdict strong { color:var(--text); font-style:normal; }
+.hills-stats { display:flex; gap:0.4rem; margin-top:0.6rem; }
+.hst { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.45rem; text-align:center; }
+.hst .hl { font-family:'DM Mono',monospace; font-size:0.47rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+.hst .hv { font-size:0.85rem; font-weight:600; color:var(--text); margin-top:0.08rem; }
+
+/* Sun/Moon */
+.sun-row { display:flex; align-items:center; justify-content:space-between; }
+.sun-item { text-align:center; }
+.sun-icon { font-size:1rem; }
+.sun-time { font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--amber); font-weight:500; }
+.sun-lbl { font-family:'DM Mono',monospace; font-size:0.47rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.sun-bar { flex:1; height:3px; background:var(--surface2); border-radius:2px; margin:0 0.65rem; overflow:hidden; }
+.sun-fill { height:100%; background:linear-gradient(90deg, var(--amber), var(--amber-soft)); border-radius:2px; transition:width 1s ease; }
+.sky-row { display:flex; gap:0.4rem; margin-top:0.6rem; }
+.sky-cell { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.45rem; text-align:center; }
+.sky-cell .sl { font-family:'DM Mono',monospace; font-size:0.47rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+.sky-cell .sv { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--cream); line-height:1.1; }
+.moon-row { display:flex; align-items:center; gap:0.65rem; margin-top:0.65rem; padding-top:0.65rem; border-top:1px solid var(--border); }
+.moon-emoji { font-size:1.8rem; }
+.moon-phase { font-size:0.8rem; font-weight:600; color:var(--cream); }
+.moon-sub { font-family:'DM Mono',monospace; font-size:0.57rem; color:var(--muted); margin-top:0.08rem; }
+
+/* Meals */
+.meal-row { display:grid; grid-template-columns:50px 1fr; align-items:center; gap:0.45rem; padding:0.28rem 0; border-bottom:1px solid rgba(90,86,80,0.25); }
+.meal-row:last-child { border-bottom:none; }
+.meal-day { font-family:'DM Mono',monospace; font-size:0.55rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.meal-day.today { color:var(--amber); }
+.meal-input { background:transparent; border:none; outline:none; color:var(--text); font-family:'Lora',serif; font-size:0.76rem; font-style:italic; width:100%; padding:0.18rem 0.3rem; border-radius:4px; transition:background 0.15s; }
+.meal-input:focus { background:var(--surface2); }
+.meal-input::placeholder { color:var(--surface3); }
+
+/* Countdowns */
+.cd-event { display:flex; justify-content:space-between; align-items:center; padding:0.45rem 0; border-bottom:1px solid rgba(90,86,80,0.25); }
+.cd-event:last-of-type { border-bottom:none; }
+.cd-name { font-size:0.76rem; color:var(--text); }
+.cd-meta { font-family:'DM Mono',monospace; font-size:0.52rem; color:var(--muted); margin-top:0.05rem; }
+.cd-days { font-family:'Bebas Neue',sans-serif; font-size:1.35rem; color:var(--amber); text-align:right; line-height:1; }
+.cd-lbl { font-family:'DM Mono',monospace; font-size:0.47rem; text-transform:uppercase; color:var(--muted); text-align:right; }
+.cd-del { margin-left:0.4rem; cursor:pointer; color:var(--muted); font-size:0.65rem; opacity:0.4; transition:opacity 0.15s; }
+.cd-del:hover { opacity:1; color:var(--red); }
+.add-row { display:flex; gap:0.35rem; margin-top:0.55rem; }
+.cd-inp { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.33rem 0.5rem; color:var(--text); font-family:'Lora',serif; font-size:0.7rem; font-style:italic; outline:none; transition:border-color 0.2s; }
+.cd-inp:focus { border-color:var(--amber); }
+.cd-inp::placeholder { color:var(--muted); }
+.cd-date-inp { width:105px; font-family:'DM Mono',monospace; font-size:0.62rem; font-style:normal; }
+.cd-btn { background:var(--amber); border:none; border-radius:6px; width:25px; cursor:pointer; color:var(--bg); font-size:0.95rem; display:flex; align-items:center; justify-content:center; transition:opacity 0.2s; flex-shrink:0; }
+.cd-btn:hover { opacity:0.8; }
+
+/* Bin Day */
+.bin-row { display:flex; align-items:center; gap:0.7rem; padding:0.38rem 0; }
+.bin-circle { width:30px; height:30px; border-radius:50%; flex-shrink:0; cursor:pointer; border:2px solid var(--border); background:transparent; transition:all 0.2s; display:flex; align-items:center; justify-content:center; font-size:0.68rem; }
+.bin-circle.on { box-shadow:0 0 8px rgba(0,0,0,0.4); }
+.bin-name { font-size:0.76rem; color:var(--text); }
+.bin-sub { font-family:'DM Mono',monospace; font-size:0.52rem; color:var(--muted); margin-left:auto; }
+
+/* Overlay */
+.overlay { position:fixed; inset:0; z-index:1000; background:rgba(25,22,18,0.88); backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.2s; }
+.overlay.open { opacity:1; pointer-events:all; }
+.overlay-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.75rem; width:500px; max-width:90vw; transform:translateY(8px); transition:transform 0.2s; }
+.overlay.open .overlay-card { transform:translateY(0); }
+.overlay-title { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:var(--amber); letter-spacing:0.04em; margin-bottom:0.2rem; }
+.overlay-hint { font-size:0.68rem; font-style:italic; color:var(--muted); margin-bottom:0.85rem; }
+.overlay-area { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:7px; padding:0.7rem 0.9rem; color:var(--text); font-family:'Lora',serif; font-size:0.87rem; font-style:italic; min-height:110px; resize:vertical; outline:none; transition:border-color 0.2s; }
+.overlay-area:focus { border-color:var(--amber); }
+
+/* Dim */
+.dim-overlay { position:fixed; inset:0; z-index:10000; background:rgba(18,16,13,0.93); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 1.5s; cursor:pointer; }
+.dim-overlay.dimmed { opacity:1; pointer-events:all; }
+.dim-time { font-family:'Bebas Neue',sans-serif; font-size:9rem; color:rgba(232,160,48,0.5); letter-spacing:0.04em; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+.fu{animation:fadeUp 0.5s ease both}
+.d1{animation-delay:.04s} .d2{animation-delay:.08s} .d3{animation-delay:.12s} .d4{animation-delay:.16s} .d5{animation-delay:.20s}
+</style>
 </head>
-<body class="antialiased selection:bg-black selection:text-white">
+<body>
 
-    <div class="bento-grid">
-        
-        <!-- 1. Header / Welcome (Top Left, Large) -->
-        <div class="bento-card col-span-2 flex flex-col justify-between min-h-[200px]">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">Littlehaugh.</h1>
-                    <p id="greeting" class="text-secondary font-medium">Welcome home, Garners.</p>
-                </div>
-                <div id="live-clock" class="text-sm font-bold bg-gray-100 px-3 py-1 rounded-full text-gray-500 font-mono">
-                    --:--
-                </div>
-            </div>
-            
-            <div class="mt-8 flex gap-4">
-                <div class="flex -space-x-3 overflow-hidden">
-                    <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://ui-avatars.com/api/?name=Matt&background=random" alt=""/>
-                    <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://ui-avatars.com/api/?name=Wife&background=random" alt=""/>
-                    <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://ui-avatars.com/api/?name=Hetty&background=random" alt=""/>
-                </div>
-                <div class="flex items-center text-sm font-medium text-secondary">
-                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                    Online
-                </div>
-            </div>
-        </div>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeOverlay()">
+  <div class="overlay-card">
+    <div class="overlay-title">Quick Note</div>
+    <div class="overlay-hint">Press / to open · Escape to close</div>
+    <textarea class="overlay-area" id="quick-note" placeholder="Type anything…"></textarea>
+  </div>
+</div>
 
-        <!-- 2. Countdown Widget (Top Right, Standard) -->
-        <div class="bento-card bg-black text-white relative group cursor-default">
-            <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-black opacity-50"></div>
-            <div class="relative z-10 flex flex-col justify-between h-full">
-                <div class="flex justify-between items-center">
-                    <span class="text-sm font-medium text-gray-400">WEDDING</span>
-                    <span class="text-xl">💍</span>
-                </div>
-                <div>
-                    <h3 id="wedding-days" class="text-4xl font-bold mb-1">...</h3>
-                    <p class="text-sm text-gray-400">days since the big day</p>
-                </div>
-                <div class="w-full bg-gray-800 h-1.5 rounded-full mt-4 overflow-hidden">
-                    <div class="bg-white h-full rounded-full w-full"></div>
-                </div>
-            </div>
-        </div>
+<div class="dim-overlay" id="dim" onclick="resetDim()">
+  <div class="dim-time" id="dim-clock">--:--</div>
+</div>
 
-        <!-- 3. Weather: Rothes (Top Right, Standard) -->
-        <div class="bento-card weather-gradient border border-blue-100">
-            <div class="flex justify-between items-start mb-4">
-                <span class="font-bold text-gray-900">Rothes</span>
-                <span class="text-2xl" id="weather-icon-main">⛅</span>
-            </div>
-            <div class="mt-auto">
-                <span class="text-4xl font-bold tracking-tighter" id="weather-temp-main">--°</span>
-                <p class="text-sm text-blue-600 font-medium mt-1" id="weather-desc-main">Loading...</p>
-            </div>
-        </div>
+<div class="shell">
 
-        <!-- 4. Quick Links (Mid Left, Small) -->
-        <a href="https://www.myfitnesspal.com" target="_blank" class="bento-card hover:bg-blue-50 group flex flex-col items-center justify-center text-center p-6 gap-3">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h7v7.93zm2-7.93V3.07c3.95.49 7 3.85 7 7.93h-7z"/></svg>
-            </div>
-            <span class="font-bold text-sm text-gray-700">FitnessPal</span>
-        </a>
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-glow"></div>
 
-        <!-- 5. Quick Links (Mid Left, Small) -->
-        <a href="https://connect.garmin.com" target="_blank" class="bento-card hover:bg-gray-50 group flex flex-col items-center justify-center text-center p-6 gap-3">
-            <div class="w-12 h-12 bg-gray-100 text-black rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            </div>
-            <span class="font-bold text-sm text-gray-700">Garmin</span>
-        </a>
-
-        <!-- 6. Calendar (Center, Large/Tall) -->
-        <div class="bento-card col-span-2 row-span-2 p-0 overflow-hidden relative min-h-[400px]">
-            <div class="absolute top-4 left-4 z-10 bg-white/80 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold shadow-sm">
-                FAMILY CALENDAR
-            </div>
-            <iframe src="https://calendar.google.com/calendar/embed?src=mattyxe%40gmail.com&ctz=Europe%2FLondon&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&mode=AGENDA" 
-                    style="border: 0" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
-        </div>
-
-        <!-- 7. The Hills / Weather (Right, Wide) -->
-        <div class="bento-card col-span-2 flex flex-col justify-between bg-stone-50 border border-stone-100">
-            <div class="flex items-center gap-2 mb-4">
-                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Hills Forecast</span>
-            </div>
-            <div class="grid grid-cols-3 gap-4" id="hills-weather">
-                <!-- Injected via JS -->
-                <div class="text-sm text-gray-400">Loading Aviemore...</div>
-            </div>
-        </div>
-
-        <!-- 8. Photo Frame (Bottom Left, Square) -->
-        <div class="bento-card p-0 relative group min-h-[250px] col-span-2 md:col-span-1">
-            <img id="photo1" src="" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer" onclick="App.refreshPhoto('photo1')">
-            <div class="absolute bottom-4 left-4 bg-black/50 backdrop-blur text-white text-xs px-2 py-1 rounded">
-                Click to swap ↻
-            </div>
-        </div>
-
-        <!-- 9. The Fridge (Bottom Center, Wide) -->
-        <div class="bento-card col-span-2 bg-yellow-50 border border-yellow-100">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="text-xl">📝</span>
-                <span class="font-bold text-yellow-900">The Fridge</span>
-            </div>
-            <textarea id="fridge-note" class="w-full bg-transparent border-none resize-none focus:ring-0 text-gray-800 text-lg leading-relaxed h-24 placeholder-yellow-800/30" placeholder="Type a note here..."></textarea>
-        </div>
-
-        <!-- 10. Milestones (Bottom Right, Tall) -->
-        <div class="bento-card row-span-2">
-            <h3 class="font-bold mb-6">Milestones</h3>
-            <div class="space-y-6 relative">
-                <div class="absolute left-[7px] top-2 bottom-2 w-[2px] bg-gray-100"></div>
-                
-                <div class="relative pl-6">
-                    <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-blue-100 border-2 border-white"></div>
-                    <p class="text-xs text-gray-400 font-mono">2006</p>
-                    <p class="font-medium text-sm">Us</p>
-                </div>
-                
-                <div class="relative pl-6">
-                    <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-pink-100 border-2 border-white"></div>
-                    <p class="text-xs text-gray-400 font-mono">2023</p>
-                    <p class="font-medium text-sm">Hetty</p>
-                </div>
-
-                <div class="relative pl-6">
-                    <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-yellow-100 border-2 border-white"></div>
-                    <p class="text-xs text-gray-400 font-mono">2025</p>
-                    <p class="font-medium text-sm">Wedding</p>
-                </div>
-                
-                 <div class="relative pl-6">
-                    <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-gray-900 border-2 border-white"></div>
-                    <p class="text-xs text-gray-400 font-mono">Now</p>
-                    <p class="font-medium text-sm" id="years-counter">... Years</p>
-                </div>
-            </div>
-        </div>
-        
-         <!-- 11. Extra Photo (Filler) -->
-        <div class="bento-card p-0 relative group min-h-[200px]">
-            <img id="photo2" src="" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer" onclick="App.refreshPhoto('photo2')">
-        </div>
-
+    <div class="sb-top fu">
+      <div class="wordmark">Littlehaugh</div>
+      <div class="wordmark-sub">The Garner Family</div>
+      <div class="clock-time" id="clock">00:00</div>
+      <div class="clock-date" id="clock-date">–</div>
+      <div class="greeting" id="greeting">Good morning, Garners.</div>
     </div>
 
-    <script>
-        const CONFIG = {
-            dates: { dating: '2006-12-18', wedding: '2025-11-04' },
-            photos: [
-                "https://pixelbark.github.io/images/IMG_4941.jpg", "https://pixelbark.github.io/images/IMG_4942.jpg",
-                "https://pixelbark.github.io/images/IMG_4944.jpg", "https://pixelbark.github.io/images/PXL_20250412_130555178.jpg",
-                "https://pixelbark.github.io/images/PXL_20250413_142258849.jpg", "https://pixelbark.github.io/images/IMG_4976.jpg",
-                "https://pixelbark.github.io/images/IMG_5186.jpg", "https://pixelbark.github.io/images/IMG_5203.jpg",
-                "https://pixelbark.github.io/images/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
-                "https://pixelbark.github.io/images/PXL_20250510_135947119.jpg", "https://pixelbark.github.io/images/PXL_20250622_130339779.jpg"
-            ]
-        };
+    <div class="photo-section fu d1" onclick="nextPhoto()" title="Click for next photo">
+      <img id="photo-of-day" src="" alt="Photo of the day">
+      <div class="photo-overlay"></div>
+      <div class="photo-label">
+        <span class="photo-title">Photo of the Day</span>
+        <span class="photo-refresh">click to change ↻</span>
+      </div>
+    </div>
 
-        const App = {
-            init() {
-                this.time();
-                this.weather();
-                this.counters();
-                this.fridge();
-                this.refreshPhoto('photo1');
-                this.refreshPhoto('photo2');
-                setInterval(() => this.time(), 1000);
-            },
+    <div class="sb-section fu d2">
+      <div class="section-label">Milestones</div>
+      <div class="milestone"><span class="ms-name">Together since</span><span class="ms-val">Dec 2006</span></div>
+      <div class="milestone"><span class="ms-name">Years together</span><span class="ms-val" id="years-val">–</span></div>
+      <div class="milestone"><span class="ms-name">Hetty born</span><span class="ms-val">2023</span></div>
+      <div class="milestone"><span class="ms-name">Hetty's age</span><span class="ms-val" id="hetty-small">–</span></div>
+      <div class="milestone"><span class="ms-name">Wedding</span><span class="ms-val">Nov 2025</span></div>
+      <div class="milestone"><span class="ms-name">Married</span><span class="ms-val" id="married-val">–</span></div>
+    </div>
 
-            time() {
-                const now = new Date();
-                const h = now.getHours();
-                document.getElementById('live-clock').innerText = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
-                
-                const greeting = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
-                document.getElementById('greeting').innerText = `${greeting}, Garners.`;
-            },
+    <div class="sb-shop fu d3">
+      <div class="section-label">Shopping List</div>
+      <div class="shop-row">
+        <input class="shop-input" id="shop-input" placeholder="Add item…" onkeydown="if(event.key==='Enter')addShop()">
+        <button class="shop-add" onclick="addShop()">+</button>
+      </div>
+      <div id="shop-list"></div>
+    </div>
 
-            counters() {
-                // Wedding
-                const wedding = new Date(CONFIG.dates.wedding);
-                const diffWedding = new Date() - wedding;
-                document.getElementById('wedding-days').innerText = Math.floor(diffWedding / (1000 * 60 * 60 * 24));
+    <div class="quick-links fu d4">
+      <a href="https://www.myfitnesspal.com" target="_blank" class="qlink">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93V12H4.07c.47-4.07 3.86-7.21 7.93-7.45V12h7.93c-.47 4.07-3.86 7.21-7.93 7.93z"/></svg>
+        FitnessPal
+      </a>
+      <a href="https://connect.garmin.com" target="_blank" class="qlink">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Garmin
+      </a>
+      <a href="https://www.nhs.uk" target="_blank" class="qlink">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        NHS
+      </a>
+      <a href="https://calendar.google.com" target="_blank" class="qlink">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>
+        Cal
+      </a>
+    </div>
 
-                // Dating
-                const start = new Date(CONFIG.dates.dating);
-                const years = new Date().getFullYear() - start.getFullYear();
-                document.getElementById('years-counter').innerText = `${years} Years together`;
-            },
+  </aside>
 
-            fridge() {
-                const el = document.getElementById('fridge-note');
-                el.value = localStorage.getItem('bento_fridge') || '';
-                el.addEventListener('input', () => localStorage.setItem('bento_fridge', el.value));
-            },
+  <!-- ═══ CENTRE ═══ -->
+  <main class="centre">
 
-            refreshPhoto(id) {
-                const img = document.getElementById(id);
-                img.style.opacity = 0.5;
-                setTimeout(() => {
-                    img.src = CONFIG.photos[Math.floor(Math.random() * CONFIG.photos.length)];
-                    img.style.opacity = 1;
-                }, 200);
-            },
+    <div class="stats-bar fu">
+      <div class="stat-cell">
+        <div class="stat-label">Rothes</div>
+        <div class="stat-val" id="stat-temp">--°</div>
+        <div class="stat-sub" id="stat-wind">–</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Days Together</div>
+        <div class="stat-val amber" id="stat-days">–</div>
+        <div class="stat-sub">Since Dec 2006</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Days Married</div>
+        <div class="stat-val" id="stat-married">–</div>
+        <div class="stat-sub">Since Nov 2025</div>
+      </div>
+      <div class="stat-cell" style="border-right:none">
+        <div class="stat-label">Hetty</div>
+        <div class="stat-val green" id="stat-hetty">–</div>
+        <div class="stat-sub">Press / for a quick note</div>
+      </div>
+    </div>
 
-            async weather() {
-                // Main Rothes
-                try {
-                    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=57.5295&longitude=-3.2082&current_weather=true');
-                    const d = await r.json();
-                    document.getElementById('weather-temp-main').innerText = Math.round(d.current_weather.temperature) + '°';
-                    document.getElementById('weather-desc-main').innerText = 'Wind: ' + d.current_weather.windspeed + ' km/h';
-                } catch(e) {}
+    <div class="cal-panel fu d2">
+      <div class="panel-hd">
+        <span class="section-label" style="margin:0">Family Calendar</span>
+        <span id="cal-today" style="font-family:'DM Mono',monospace;font-size:0.56rem;color:var(--muted)">–</span>
+      </div>
+      <iframe src="https://calendar.google.com/calendar/embed?src=mattyxe%40gmail.com&ctz=Europe%2FLondon&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&mode=AGENDA" scrolling="no"></iframe>
+    </div>
 
-                // Hills (Aviemore)
-                try {
-                    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=57.1882&longitude=-3.8294&current_weather=true&hourly=temperature_2m,windspeed_10m&forecast_days=1');
-                    const d = await r.json();
-                    const current = d.current_weather;
-                    
-                    const html = `
-                        <div class="bg-white p-3 rounded-xl shadow-sm text-center">
-                            <p class="text-xs text-gray-400 uppercase">Temp</p>
-                            <p class="font-bold text-lg">${Math.round(current.temperature)}°</p>
-                        </div>
-                        <div class="bg-white p-3 rounded-xl shadow-sm text-center">
-                            <p class="text-xs text-gray-400 uppercase">Wind</p>
-                            <p class="font-bold text-lg ${current.windspeed > 30 ? 'text-red-500' : 'text-gray-800'}">${current.windspeed}</p>
-                            <p class="text-[10px] text-gray-400">km/h</p>
-                        </div>
-                        <div class="bg-white p-3 rounded-xl shadow-sm text-center">
-                            <p class="text-xs text-gray-400 uppercase">Status</p>
-                            <p class="font-bold text-sm mt-1">${current.windspeed > 40 ? '⚠️ High' : '✅ Good'}</p>
-                        </div>
-                    `;
-                    document.getElementById('hills-weather').innerHTML = html;
-                } catch(e) {}
-            }
-        };
+    <div class="forecast-strip fu d3" id="forecast-strip">
+      <div style="grid-column:1/-1;font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--muted);display:flex;align-items:center">Loading forecast…</div>
+    </div>
 
-        document.addEventListener('DOMContentLoaded', () => App.init());
-    </script>
+    <div class="fridge-bar fu d4">
+      <div class="fridge-label">
+        <div class="fridge-emoji">📝</div>
+        <div class="fridge-title">The Fridge</div>
+      </div>
+      <textarea class="fridge-input" id="fridge" placeholder="Leave a note for the family…" rows="2"></textarea>
+    </div>
+
+  </main>
+
+  <!-- ═══ RIGHT ═══ -->
+  <div class="right">
+    <div class="panel-hd fu">
+      <span class="section-label" style="margin:0">Home Dashboard</span>
+      <span id="right-date" style="font-family:'DM Mono',monospace;font-size:0.53rem;color:var(--muted)">–</span>
+    </div>
+    <div class="right-scroll">
+
+      <!-- Hetty -->
+      <div class="r-card fu d1">
+        <div class="section-label">Hetty 🐣</div>
+        <div class="hetty-row">
+          <div class="h-stat"><div class="hl">Months</div><div class="hv" id="h-months">–</div></div>
+          <div class="h-stat"><div class="hl">Weeks</div><div class="hv" id="h-weeks">–</div></div>
+          <div class="h-stat"><div class="hl">Days</div><div class="hv" id="h-days">–</div></div>
+        </div>
+      </div>
+
+      <!-- Weather -->
+      <div class="weather-hero fu d1">
+        <div class="w-loc">Rothes, Moray</div>
+        <div class="w-temp-row">
+          <div class="w-big"><span id="r-temp">--</span>°</div>
+          <div class="w-feels">Feels <span id="r-feels">--</span>°</div>
+        </div>
+        <div class="w-grid">
+          <div class="w-cell"><div class="wl">Wind</div><div class="wv" id="r-wind">–</div></div>
+          <div class="w-cell"><div class="wl">Humidity</div><div class="wv" id="r-hum">–</div></div>
+          <div class="w-cell"><div class="wl">Rain</div><div class="wv" id="r-rain">–</div></div>
+          <div class="w-cell"><div class="wl">UV Index</div><div class="wv" id="r-uv">–</div></div>
+        </div>
+      </div>
+
+      <!-- Hills -->
+      <div class="r-card fu d2">
+        <div class="section-label">Aviemore — Good Day for the Hills?</div>
+        <div class="hills-score">
+          <div class="score-ring" id="score-ring">–</div>
+          <div class="hills-verdict" id="hills-verdict">Loading…</div>
+        </div>
+        <div class="hills-stats">
+          <div class="hst"><div class="hl">Temp</div><div class="hv" id="h-temp">–</div></div>
+          <div class="hst"><div class="hl">Wind</div><div class="hv" id="h-wind">–</div></div>
+          <div class="hst"><div class="hl">Rain</div><div class="hv" id="h-rain">–</div></div>
+        </div>
+      </div>
+
+      <!-- Sun/Moon -->
+      <div class="r-card fu d2">
+        <div class="section-label">Sun, Moon &amp; Sky</div>
+        <div class="sun-row">
+          <div class="sun-item"><div class="sun-icon">🌅</div><div class="sun-time" id="sunrise">–</div><div class="sun-lbl">Rise</div></div>
+          <div class="sun-bar"><div class="sun-fill" id="sun-fill" style="width:0%"></div></div>
+          <div class="sun-item"><div class="sun-icon">🌇</div><div class="sun-time" id="sunset">–</div><div class="sun-lbl">Set</div></div>
+        </div>
+        <div class="sky-row">
+          <div class="sky-cell"><div class="sl">Daylight</div><div class="sv" id="daylen">–</div></div>
+          <div class="sky-cell"><div class="sl">UV Index</div><div class="sv" id="uv-val">–</div></div>
+          <div class="sky-cell"><div class="sl">Solar Noon</div><div class="sv" id="solar-noon">–</div></div>
+        </div>
+        <div class="moon-row">
+          <div class="moon-emoji" id="moon-emoji">🌙</div>
+          <div><div class="moon-phase" id="moon-phase">Calculating…</div><div class="moon-sub" id="moon-sub">–</div></div>
+        </div>
+      </div>
+
+      <!-- Meals -->
+      <div class="r-card fu d3">
+        <div class="section-label">This Week's Meals</div>
+        <div id="meals-list"></div>
+      </div>
+
+      <!-- Countdowns -->
+      <div class="r-card fu d3">
+        <div class="section-label">Countdowns &amp; Events</div>
+        <div id="cd-list"></div>
+        <div class="add-row">
+          <input class="cd-inp" id="cd-name" placeholder="Event name…">
+          <input class="cd-inp cd-date-inp" id="cd-date" type="date">
+          <button class="cd-btn" onclick="addCountdown()">+</button>
+        </div>
+      </div>
+
+      <!-- Bin Day -->
+      <div class="r-card fu d4">
+        <div class="section-label">Bin Day Reminder</div>
+        <div id="bin-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const ls = {
+  get:(k,d)=>{ try{const v=localStorage.getItem(k); return v===null?d:JSON.parse(v)}catch{return d} },
+  set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v))}catch{} }
+};
+
+const DAYS_L  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS_L= ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_S= ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS_S  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// CLOCK
+function tick() {
+  const n=new Date(), h=n.getHours();
+  const ts=`${pad(h)}:${pad(n.getMinutes())}`;
+  $('clock').textContent=ts;
+  $('dim-clock').textContent=ts;
+  const dateStr=`${DAYS_L[n.getDay()]}  ${n.getDate()} ${MONTHS_L[n.getMonth()]} ${n.getFullYear()}`;
+  $('clock-date').textContent=dateStr;
+  const shortDate=`${DAYS_L[n.getDay()]}, ${n.getDate()} ${MONTHS_S[n.getMonth()]}`;
+  $('cal-today').textContent=shortDate;
+  $('right-date').textContent=shortDate;
+  $('greeting').textContent=`${h<12?'Good morning':h<18?'Good afternoon':'Good evening'}, Garners.`;
+}
+setInterval(tick,1000); tick();
+
+// COUNTERS
+function counters() {
+  const now=new Date();
+  const dating=new Date('2006-12-18');
+  const hetty=new Date('2023-03-15'); // update to real date
+  const wedding=new Date('2025-11-04');
+  const dDays=Math.floor((now-dating)/86400000);
+  const wDays=Math.floor((now-wedding)/86400000);
+  const years=now.getFullYear()-dating.getFullYear();
+  const hDays=Math.floor((now-hetty)/86400000);
+  const hWeeks=Math.floor(hDays/7);
+  const hMonths=Math.floor(hDays/30.44);
+  $('years-val').textContent=`${years} yrs`;
+  $('married-val').textContent=`${wDays} days`;
+  $('hetty-small').textContent=`${hMonths} mo`;
+  $('stat-days').textContent=dDays.toLocaleString();
+  $('stat-married').textContent=wDays;
+  $('stat-hetty').textContent=`${Math.floor(hMonths/12)}y ${hMonths%12}m`;
+  $('h-months').textContent=hMonths;
+  $('h-weeks').textContent=hWeeks;
+  $('h-days').textContent=hDays.toLocaleString();
+}
+counters();
+
+// FRIDGE
+const fridgeEl=$('fridge');
+fridgeEl.value=ls.get('lg_fridge','');
+fridgeEl.addEventListener('input',()=>ls.set('lg_fridge',fridgeEl.value));
+
+// PHOTO OF THE DAY
+const PHOTOS = [
+  "https://pixelbark.github.io/images/IMG_4941.jpg",
+  "https://pixelbark.github.io/images/IMG_4942.jpg",
+  "https://pixelbark.github.io/images/IMG_4944.jpg",
+  "https://pixelbark.github.io/images/PXL_20250412_130555178.jpg",
+  "https://pixelbark.github.io/images/PXL_20250413_142258849.jpg",
+  "https://pixelbark.github.io/images/IMG_4976.jpg",
+  "https://pixelbark.github.io/images/IMG_5186.jpg",
+  "https://pixelbark.github.io/images/IMG_5203.jpg",
+  "https://pixelbark.github.io/images/2aedbc73-3624-4f6a-a533-89d7219aaf24.jpg",
+  "https://pixelbark.github.io/images/PXL_20250510_135947119.jpg",
+  "https://pixelbark.github.io/images/PXL_20250622_130339779.jpg"
+];
+// Pick a deterministic daily photo, allow manual cycling
+let photoIndex = (()=>{
+  const stored = ls.get('lg_photo_idx', null);
+  const storedDate = ls.get('lg_photo_date', null);
+  const today = new Date().toDateString();
+  if (storedDate === today && stored !== null) return stored;
+  // New day — pick based on day-of-year for consistency
+  const doy = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+  const idx = doy % PHOTOS.length;
+  ls.set('lg_photo_idx', idx); ls.set('lg_photo_date', today);
+  return idx;
+})();
+function setPhoto(idx) {
+  const img = $('photo-of-day');
+  img.classList.remove('loaded');
+  img.style.opacity = 0;
+  const newImg = new Image();
+  newImg.onload = () => { img.src = newImg.src; img.style.opacity = 1; img.classList.add('loaded'); };
+  newImg.src = PHOTOS[idx];
+}
+function nextPhoto() {
+  photoIndex = (photoIndex + 1) % PHOTOS.length;
+  ls.set('lg_photo_idx', photoIndex);
+  setPhoto(photoIndex);
+}
+setPhoto(photoIndex);
+
+// SHOPPING
+let shopItems=ls.get('lg_shop',[]);
+function renderShop() {
+  const el=$('shop-list'); el.innerHTML='';
+  shopItems.forEach((item,i)=>{
+    const d=document.createElement('div');
+    d.className='shop-item'+(item.done?' done':'');
+    d.innerHTML=`<div class="shop-check">${item.done?'<svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 4.5l2.5 2.5 4-4" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div><span>${item.text}</span><span class="shop-del" onclick="event.stopPropagation();delShop(${i})">✕</span>`;
+    d.addEventListener('click',()=>{ shopItems[i].done=!shopItems[i].done; ls.set('lg_shop',shopItems); renderShop(); });
+    el.appendChild(d);
+  });
+}
+function addShop(){ const inp=$('shop-input'),txt=inp.value.trim(); if(!txt)return; shopItems.push({text:txt,done:false}); ls.set('lg_shop',shopItems); inp.value=''; renderShop(); }
+function delShop(i){ shopItems.splice(i,1); ls.set('lg_shop',shopItems); renderShop(); }
+renderShop();
+
+// MEALS
+const WEEK=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+function buildMeals(){
+  const todayIdx=(new Date().getDay()+6)%7, el=$('meals-list');
+  el.innerHTML='';
+  WEEK.forEach((day,i)=>{
+    const stored=ls.get(`lg_meal_${i}`,'');
+    const r=document.createElement('div'); r.className='meal-row';
+    const isT=i===todayIdx;
+    r.innerHTML=`<div class="meal-day ${isT?'today':''}">${day.slice(0,3).toUpperCase()}${isT?' ·':''}</div><input class="meal-input" value="${stored}" placeholder="dinner?" data-idx="${i}">`;
+    el.appendChild(r);
+  });
+  el.querySelectorAll('.meal-input').forEach(inp=>inp.addEventListener('input',e=>ls.set(`lg_meal_${e.target.dataset.idx}`,e.target.value)));
+}
+buildMeals();
+
+// COUNTDOWNS
+let countdowns=ls.get('lg_countdowns',[
+  {name:'Christmas',date:'2025-12-25'},
+  {name:'New Year',date:'2026-01-01'}
+]);
+function renderCountdowns(){
+  const el=$('cd-list'); el.innerHTML='';
+  const now=new Date();
+  const sorted=[...countdowns].map((cd,i)=>({...cd,i})).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  sorted.forEach(cd=>{
+    const diff=Math.ceil((new Date(cd.date)-now)/86400000);
+    if(diff<-60) return;
+    const row=document.createElement('div'); row.className='cd-event';
+    const val=diff<0?Math.abs(diff):diff===0?'🎉':diff;
+    const lbl=diff<0?'days ago':diff===0?'Today!':'days';
+    const fmt=new Date(cd.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+    row.innerHTML=`<div><div class="cd-name">${cd.name}</div><div class="cd-meta">${fmt}</div></div><div style="display:flex;align-items:center"><div style="text-align:right"><div class="cd-days">${val}</div><div class="cd-lbl">${lbl}</div></div><span class="cd-del" onclick="delCountdown(${cd.i})">✕</span></div>`;
+    el.appendChild(row);
+  });
+}
+function addCountdown(){ const name=$('cd-name').value.trim(),date=$('cd-date').value; if(!name||!date)return; countdowns.push({name,date}); ls.set('lg_countdowns',countdowns); $('cd-name').value=''; $('cd-date').value=''; renderCountdowns(); }
+function delCountdown(i){ countdowns.splice(i,1); ls.set('lg_countdowns',countdowns); renderCountdowns(); }
+renderCountdowns();
+
+// BINS
+const BINS=[{name:'General Waste',color:'#666',icon:'🗑️'},{name:'Recycling',color:'#3a8a3a',icon:'♻️'},{name:'Garden Waste',color:'#6a9a2a',icon:'🌿'}];
+let binState=ls.get('lg_bins',[false,false,false]);
+function renderBins(){
+  const el=$('bin-list'); el.innerHTML='';
+  BINS.forEach((b,i)=>{
+    const on=binState[i];
+    const row=document.createElement('div'); row.className='bin-row';
+    row.innerHTML=`<div class="bin-circle ${on?'on':''}" style="${on?`background:${b.color};border-color:${b.color}`:''}" onclick="toggleBin(${i})">${b.icon}</div><div class="bin-name">${b.name}</div><div class="bin-sub">${on?'This week':'–'}</div>`;
+    el.appendChild(row);
+  });
+}
+function toggleBin(i){ binState[i]=!binState[i]; ls.set('lg_bins',binState); renderBins(); }
+renderBins();
+
+// SUN/MOON
+function calcSun(lat,lon){
+  const now=new Date();
+  const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+  const B=(2*Math.PI/365)*(doy-81);
+  const EoT=9.87*Math.sin(2*B)-7.53*Math.cos(B)-1.5*Math.sin(B);
+  const decl=23.45*Math.sin(B)*Math.PI/180;
+  const latR=lat*Math.PI/180;
+  const HA=Math.acos(-Math.tan(latR)*Math.tan(decl))*180/Math.PI;
+  const TC=4*lon+EoT, noon=12-TC/60;
+  const rise=noon-HA/15, set=noon+HA/15;
+  const toS=h=>`${pad(Math.floor(h))}:${pad(Math.min(59,Math.round((h%1)*60)))}`;
+  return{rise,set,noon,riseStr:toS(rise),setStr:toS(set),noonStr:toS(noon),dayLen:(set-rise).toFixed(1)};
+}
+function moonPhase(date){
+  const syn=29.530588853;
+  const phase=((((date-new Date('2000-01-06T18:14:00Z'))/86400000)%syn)+syn)%syn;
+  const illum=Math.round(50*(1-Math.cos(2*Math.PI*phase/syn)));
+  const ps=[{max:1.85,n:'New Moon',e:'🌑'},{max:5.54,n:'Waxing Crescent',e:'🌒'},{max:9.22,n:'First Quarter',e:'🌓'},{max:12.91,n:'Waxing Gibbous',e:'🌔'},{max:16.61,n:'Full Moon',e:'🌕'},{max:20.30,n:'Waning Gibbous',e:'🌖'},{max:23.99,n:'Last Quarter',e:'🌗'},{max:27.68,n:'Waning Crescent',e:'🌘'},{max:99,n:'New Moon',e:'🌑'}];
+  const p=ps.find(x=>phase<x.max);
+  return{name:p.n,emoji:p.e,illum,day:Math.floor(phase)};
+}
+function updateSunMoon(){
+  const sun=calcSun(57.5295,-3.2082);
+  $('sunrise').textContent=sun.riseStr; $('sunset').textContent=sun.setStr; $('solar-noon').textContent=sun.noonStr; $('daylen').textContent=sun.dayLen+'h';
+  const now=new Date(),nowH=now.getHours()+now.getMinutes()/60;
+  $('sun-fill').style.width=(Math.max(0,Math.min(1,(nowH-sun.rise)/(sun.set-sun.rise)))*100)+'%';
+  const moon=moonPhase(new Date());
+  $('moon-emoji').textContent=moon.emoji; $('moon-phase').textContent=moon.name;
+  $('moon-sub').textContent=`${moon.illum}% illuminated · day ${moon.day} of cycle`;
+}
+updateSunMoon();
+
+// WEATHER
+async function loadWeather(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=57.5295&longitude=-3.2082&current=temperature_2m,apparent_temperature,windspeed_10m,relative_humidity_2m,precipitation,uv_index&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=Europe%2FLondon&forecast_days=5');
+    const d=await r.json(); const c=d.current;
+    const t=Math.round(c.temperature_2m);
+    $('r-temp').textContent=t; $('r-feels').textContent=Math.round(c.apparent_temperature);
+    $('r-wind').textContent=c.windspeed_10m+' km/h'; $('r-hum').textContent=c.relative_humidity_2m+'%';
+    $('r-rain').textContent=c.precipitation+' mm'; const uv=c.uv_index??'–';
+    $('r-uv').textContent=uv; $('uv-val').textContent=uv;
+    $('stat-temp').textContent=t+'°'; $('stat-wind').textContent='Wind '+c.windspeed_10m+' km/h';
+    const wmoIcon=code=>code===0?'☀️':code<=2?'🌤️':code<=3?'☁️':code<=48?'🌫️':code<=67?'🌧️':code<=77?'❄️':code<=82?'⛈️':'🌦️';
+    const strip=$('forecast-strip'); strip.innerHTML='';
+    for(let i=0;i<5;i++){
+      const dt=new Date(d.daily.time[i]), dow=DAYS_S[dt.getDay()];
+      const div=document.createElement('div'); div.className='fc-day';
+      div.innerHTML=`<div class="fc-dn">${dow}</div><span class="fc-ic">${wmoIcon(d.daily.weathercode[i])}</span><div class="fc-hi">${Math.round(d.daily.temperature_2m_max[i])}°</div><div class="fc-lo">${Math.round(d.daily.temperature_2m_min[i])}°</div>`;
+      strip.appendChild(div);
+    }
+  }catch(e){console.warn('Rothes',e);}
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=57.1882&longitude=-3.8294&current=temperature_2m,windspeed_10m,precipitation&timezone=Europe%2FLondon');
+    const d=await r.json(); const c=d.current;
+    $('h-temp').textContent=Math.round(c.temperature_2m)+'°';
+    $('h-wind').textContent=c.windspeed_10m+' km/h';
+    $('h-rain').textContent=c.precipitation+' mm';
+    let score=100;
+    if(c.windspeed_10m>50)score-=50; else if(c.windspeed_10m>30)score-=25; else if(c.windspeed_10m>20)score-=10;
+    if(c.precipitation>5)score-=40; else if(c.precipitation>1)score-=15;
+    if(c.temperature_2m<0)score-=20; else if(c.temperature_2m<5)score-=5;
+    score=Math.max(0,score);
+    const ring=$('score-ring'); ring.textContent=score;
+    const cls=score>=70?'good':score>=40?'caution':'bad';
+    const msg=score>=70?'<strong>Good to go.</strong> Conditions look favourable for a day in the hills.':score>=40?'<strong>Take care.</strong> Some challenging conditions — check the detailed forecast.':'<strong>Stay home.</strong> Poor conditions expected — wind or rain likely.';
+    ring.className='score-ring '+cls; $('hills-verdict').innerHTML=msg;
+  }catch(e){console.warn('Hills',e);}
+}
+loadWeather();
+
+// OVERLAY
+const overlay=$('overlay'), qn=$('quick-note');
+qn.value=ls.get('lg_qnote','');
+qn.addEventListener('input',()=>ls.set('lg_qnote',qn.value));
+function openOverlay(){ overlay.classList.add('open'); setTimeout(()=>qn.focus(),120); }
+function closeOverlay(){ overlay.classList.remove('open'); }
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){ e.preventDefault(); openOverlay(); }
+  if(e.key==='Escape') closeOverlay();
+});
+
+// AUTO-DIM (10 mins)
+let dimTimer;
+function resetDim(){
+  $('dim').classList.remove('dimmed');
+  clearTimeout(dimTimer);
+  dimTimer=setTimeout(()=>$('dim').classList.add('dimmed'), 10*60*1000);
+}
+document.addEventListener('mousemove',resetDim,{passive:true});
+document.addEventListener('keydown',resetDim,{passive:true});
+document.addEventListener('click',resetDim,{passive:true});
+resetDim();
+</script>
 </body>
 </html>
