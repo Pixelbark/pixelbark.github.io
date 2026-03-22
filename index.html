@@ -263,6 +263,42 @@ body::before {
 @keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
 .fu{animation:fadeUp 0.5s ease both}
 .d1{animation-delay:.04s} .d2{animation-delay:.08s} .d3{animation-delay:.12s} .d4{animation-delay:.16s} .d5{animation-delay:.20s}
+
+/* Milestones */
+.ms-item { display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0; border-bottom:1px solid rgba(90,86,80,0.25); font-size:0.76rem; }
+.ms-item:last-child { border-bottom:none; }
+.ms-dot { width:7px; height:7px; border-radius:50%; background:var(--surface3); flex-shrink:0; }
+.ms-dot.done { background:var(--green); }
+.ms-dot.custom { background:var(--amber); }
+.ms-label { flex:1; color:var(--text); }
+.ms-age { font-family:'DM Mono',monospace; font-size:0.58rem; color:var(--muted); white-space:nowrap; }
+
+/* Tides */
+.tide-row { display:flex; gap:0.45rem; margin-top:0.5rem; }
+.tide-item { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:7px; padding:0.55rem; text-align:center; }
+.tide-type { font-family:'DM Mono',monospace; font-size:0.48rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.tide-time { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--cream); line-height:1.1; }
+.tide-ht { font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--amber); margin-top:0.05rem; }
+.tide-next { font-size:0.72rem; font-style:italic; color:var(--muted); margin-top:0.45rem; text-align:center; }
+.api-setup { font-size:0.73rem; color:var(--muted); font-style:italic; }
+.api-setup a { color:var(--amber); cursor:pointer; text-decoration:underline; }
+.api-inp-row { display:flex; gap:0.35rem; margin-top:0.4rem; }
+
+/* Walk of the Week */
+.walk-name { font-size:0.88rem; font-weight:600; color:var(--cream); margin-bottom:0.25rem; }
+.walk-meta { font-family:'DM Mono',monospace; font-size:0.55rem; color:var(--amber); letter-spacing:0.05em; margin-bottom:0.35rem; }
+.walk-desc { font-size:0.74rem; font-style:italic; color:var(--muted); line-height:1.5; }
+.walk-link { display:inline-block; margin-top:0.5rem; font-family:'DM Mono',monospace; font-size:0.52rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.15s; }
+.walk-link:hover { border-color:var(--amber); }
+
+/* Agile electricity */
+.agile-now { display:flex; align-items:baseline; gap:0.4rem; margin:0.35rem 0; }
+.agile-price { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; line-height:1; }
+.agile-unit { font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); align-self:flex-end; padding-bottom:0.25rem; }
+.agile-slots { display:flex; gap:0.15rem; margin-top:0.5rem; align-items:flex-end; height:40px; }
+.agile-bar { flex:1; border-radius:2px 2px 0 0; min-height:3px; position:relative; }
+.agile-bar.now { outline:1px solid var(--cream); outline-offset:1px; }
+.agile-legend { display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:0.46rem; color:var(--muted); margin-top:0.2rem; }
 </style>
 </head>
 <body>
@@ -408,6 +444,16 @@ body::before {
         </div>
       </div>
 
+      <!-- Hetty Milestones -->
+      <div class="r-card fu d1">
+        <div class="section-label">Hetty's Story 🌱</div>
+        <div id="ms-list"></div>
+        <div class="add-row" style="margin-top:0.5rem">
+          <input class="cd-inp" id="ms-text" placeholder="Add a memory…" onkeydown="if(event.key==='Enter')addMilestone()">
+          <button class="cd-btn" onclick="addMilestone()">+</button>
+        </div>
+      </div>
+
       <!-- Weather -->
       <div class="weather-hero fu d1">
         <div class="w-loc">Rothes, Moray</div>
@@ -435,6 +481,18 @@ body::before {
           <div class="hst"><div class="hl">Wind</div><div class="hv" id="h-wind">–</div></div>
           <div class="hst"><div class="hl">Rain</div><div class="hv" id="h-rain">–</div></div>
         </div>
+      </div>
+
+      <!-- Tides -->
+      <div class="r-card fu d2">
+        <div class="section-label">Tides — Buckie</div>
+        <div id="tide-content"><div class="api-setup">Loading…</div></div>
+      </div>
+
+      <!-- Walk of the Week -->
+      <div class="r-card fu d2">
+        <div class="section-label">Walk of the Week 🥾</div>
+        <div id="walk-content"></div>
       </div>
 
       <!-- Sun/Moon -->
@@ -471,6 +529,12 @@ body::before {
           <input class="cd-inp cd-date-inp" id="cd-date" type="date">
           <button class="cd-btn" onclick="addCountdown()">+</button>
         </div>
+      </div>
+
+      <!-- Octopus Agile -->
+      <div class="r-card fu d4" id="agile-card" style="display:none">
+        <div class="section-label">Electricity ⚡ Agile</div>
+        <div id="agile-content"></div>
       </div>
 
       <!-- Bin Day -->
@@ -735,6 +799,189 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){ e.preventDefault(); openOverlay(); }
   if(e.key==='Escape') closeOverlay();
 });
+
+// HETTY MILESTONES
+const HETTY_DOB = new Date('2023-03-15');
+const AUTO_MS = [
+  { label: '1st birthday 🎂', months: 12 },
+  { label: '18 months', months: 18 },
+  { label: '2nd birthday 🎂', months: 24 },
+  { label: '3rd birthday 🎂', months: 36 },
+  { label: '4th birthday 🎂', months: 48 },
+  { label: '5th birthday + school 🎒', months: 60 },
+  { label: '6th birthday 🎂', months: 72 },
+];
+let customMs = ls.get('lg_milestones', []);
+function renderMilestones() {
+  const el = $('ms-list'); el.innerHTML = '';
+  const hMonths = (Date.now() - HETTY_DOB) / (30.44 * 86400000);
+  const autoPast = AUTO_MS.filter(m => hMonths >= m.months);
+  const autoFut  = AUTO_MS.filter(m => hMonths < m.months);
+  const visible  = [...autoPast.slice(-2), ...autoFut.slice(0, 3), ...customMs.map((m, i) => ({ ...m, idx: i, custom: true }))];
+  visible.forEach(m => {
+    const row = document.createElement('div'); row.className = 'ms-item';
+    const done = m.custom ? false : hMonths >= m.months;
+    const ageStr = m.months ? (m.months < 12 ? m.months + 'mo' : (m.months / 12) + 'yr') : '';
+    const dotCls = done ? 'done' : m.custom ? 'custom' : '';
+    row.innerHTML = `<div class="ms-dot ${dotCls}"></div><div class="ms-label">${m.label}</div><div class="ms-age">${ageStr}</div>`;
+    if (m.custom) {
+      const del = document.createElement('span');
+      del.className = 'cd-del'; del.textContent = '✕';
+      del.onclick = () => { customMs.splice(m.idx, 1); ls.set('lg_milestones', customMs); renderMilestones(); };
+      row.appendChild(del);
+    }
+    el.appendChild(row);
+  });
+}
+function addMilestone() {
+  const txt = $('ms-text').value.trim();
+  if (!txt) return;
+  customMs.push({ label: txt });
+  ls.set('lg_milestones', customMs);
+  $('ms-text').value = '';
+  renderMilestones();
+}
+renderMilestones();
+
+// WALK OF THE WEEK
+const WALKS = [
+  { name: 'Speyside Way: Craigellachie to Aberlour', dist: '4.5 mi', desc: 'A gentle riverside walk through whisky country, passing distilleries and the famous Telford bridge.', url: 'https://www.walkhighlands.co.uk/speyside/speyside-way.shtml' },
+  { name: 'Ben Rinnes', dist: '7 mi', desc: 'A classic Moray hill walk to the highest point in the area — sweeping views of the Cairngorms and Moray Firth.', url: 'https://www.walkhighlands.co.uk/moray/ben-rinnes.shtml' },
+  { name: 'Roseisle Forest', dist: '4 mi', desc: 'Pine forest trails along the Moray coast, with golden beaches and sea views on a clear day.', url: 'https://www.walkhighlands.co.uk/moray/roseisle.shtml' },
+  { name: 'Cluny Hill, Forres', dist: '2.5 mi', desc: "A short but rewarding walk through woodland to Nelson's Tower with panoramic views over Forres.", url: 'https://www.walkhighlands.co.uk/moray/cluny-hill.shtml' },
+  { name: 'Loch an Eilein', dist: '5 mi', desc: "One of Scotland's most beautiful lochs — a ruined castle on an island and ancient Caledonian pines reflected in still water.", url: 'https://www.walkhighlands.co.uk/cairngorms/loch-an-eilein.shtml' },
+  { name: 'Craigellachie Wood, Aviemore', dist: '1.5 mi', desc: 'A tranquil birch woodland nature reserve on the edge of Aviemore — great for spotting peregrine falcons.', url: 'https://www.walkhighlands.co.uk/cairngorms/craigellachie-wood.shtml' },
+  { name: "Randolph's Leap", dist: '2 mi', desc: 'A spectacular wooded gorge where the River Findhorn cuts through rock — one of Moray\'s most dramatic natural features.', url: 'https://www.walkhighlands.co.uk/moray/randolphs-leap.shtml' },
+  { name: "Meall a'Bhuachaille", dist: '8 mi', desc: 'A straightforward Corbett above Glenmore offering one of the finest views of Loch Morlich and the Cairngorm plateau.', url: 'https://www.walkhighlands.co.uk/cairngorms/meall-a-bhuachaille.shtml' },
+  { name: 'Culbin Forest', dist: '5 mi', desc: 'Vast planted forest on a coastal sand dune system — the largest in Britain — with waymarked trails and sea views.', url: 'https://www.walkhighlands.co.uk/moray/culbin.shtml' },
+  { name: 'Knock of Braemoray', dist: '5.5 mi', desc: 'A quiet summit above the Findhorn valley with excellent views south to the Monadhliath Mountains and north over Moray.', url: 'https://www.walkhighlands.co.uk/moray/knock-of-braemoray.shtml' },
+  { name: 'Duffus Castle', dist: '3 mi', desc: "A well-preserved Norman motte-and-bailey castle on the Moray plain, with views to the ancient loch of Spynie nearby.", url: 'https://www.walkhighlands.co.uk/moray/duffus.shtml' },
+  { name: 'Glenlivet: Blackwater Trail', dist: '6.5 mi', desc: 'A remote circular through heather moorland and ancient pines in the upper Livet valley — pure Speyside wilderness.', url: 'https://www.walkhighlands.co.uk/moray/glenlivet.shtml' },
+];
+(function buildWalk() {
+  const weekNum = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
+  const walk = WALKS[weekNum % WALKS.length];
+  $('walk-content').innerHTML = `
+    <div class="walk-name">${walk.name}</div>
+    <div class="walk-meta">${walk.dist} · rotates each week</div>
+    <div class="walk-desc">${walk.desc}</div>
+    <a class="walk-link" href="${walk.url}" target="_blank">View on Walk Highlands →</a>
+  `;
+})();
+
+// TIDES — Stormglass API (free tier: 10 req/day)
+function renderTides(data) {
+  const el = $('tide-content');
+  const now = Date.now();
+  const upcoming = data.filter(e => new Date(e.time).getTime() >= now - 3600000).slice(0, 4);
+  if (!upcoming.length) { el.innerHTML = '<div class="api-setup">No tide data for today.</div>'; return; }
+  const next = upcoming[0];
+  const after = upcoming[1];
+  const fmt = iso => { const d = new Date(iso); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+  const typeStr = t => t === 'high' ? '↑ High' : '↓ Low';
+  const diffMin = Math.round((new Date(next.time) - now) / 60000);
+  const countdown = diffMin <= 0 ? 'Now' : diffMin < 60 ? `in ${diffMin}m` : `in ${Math.floor(diffMin / 60)}h ${diffMin % 60}m`;
+  el.innerHTML = `
+    <div class="tide-row">
+      <div class="tide-item">
+        <div class="tide-type">${typeStr(next.type)}</div>
+        <div class="tide-time">${fmt(next.time)}</div>
+        <div class="tide-ht">${next.height.toFixed(1)}m</div>
+      </div>
+      ${after ? `<div class="tide-item">
+        <div class="tide-type">${typeStr(after.type)}</div>
+        <div class="tide-time">${fmt(after.time)}</div>
+        <div class="tide-ht">${after.height.toFixed(1)}m</div>
+      </div>` : ''}
+    </div>
+    <div class="tide-next">${next.type === 'high' ? '↑ High' : '↓ Low'} tide ${countdown}</div>
+  `;
+}
+function showTideSetup() {
+  $('tide-content').innerHTML = `
+    <div class="api-setup">Get a free <a onclick="window.open('https://stormglass.io','_blank')">Stormglass API key</a> (10 req/day) for tide times.</div>
+    <div class="api-inp-row">
+      <input class="cd-inp" id="sg-key-inp" placeholder="Paste API key…" style="font-family:'DM Mono',monospace;font-size:0.62rem">
+      <button class="cd-btn" onclick="saveTideKey()">✓</button>
+    </div>
+  `;
+}
+function saveTideKey() {
+  const k = document.getElementById('sg-key-inp').value.trim();
+  if (!k) return;
+  ls.set('sg_key', k);
+  loadTides();
+}
+async function loadTides() {
+  const key = ls.get('sg_key', null);
+  if (!key) { showTideSetup(); return; }
+  const today = new Date().toDateString();
+  const cached = ls.get('lg_tides', null);
+  if (ls.get('lg_tides_date', null) === today && cached) { renderTides(cached); return; }
+  try {
+    const start = new Date(); start.setHours(0, 0, 0, 0);
+    const end   = new Date(); end.setHours(23, 59, 59, 999);
+    const r = await fetch(`https://api.stormglass.io/v2/tide/extremes/point?lat=57.678&lng=-2.968&start=${start.toISOString()}&end=${end.toISOString()}`, {
+      headers: { Authorization: key }
+    });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    ls.set('lg_tides', d.data); ls.set('lg_tides_date', today);
+    renderTides(d.data);
+  } catch (e) {
+    $('tide-content').innerHTML = '<div class="api-setup">Could not load tides. Check your API key.</div>';
+    console.warn('Tides', e);
+  }
+}
+loadTides();
+
+// OCTOPUS AGILE (public API, no key needed)
+const AGILE_COLOR = p => p < 10 ? 'var(--green)' : p < 20 ? 'var(--amber)' : 'var(--red)';
+function renderAgile(rates) {
+  const now = new Date();
+  const sorted = [...rates].sort((a, b) => new Date(a.valid_from) - new Date(b.valid_from));
+  const curIdx = sorted.findIndex(r => new Date(r.valid_from) <= now && new Date(r.valid_to) > now);
+  if (curIdx < 0) return;
+  const slots = sorted.slice(curIdx, curIdx + 10);
+  const prices = slots.map(s => s.value_inc_vat);
+  const maxP = Math.max(...prices), minP = Math.min(...prices), rangeP = maxP - minP || 1;
+  const cp = slots[0].value_inc_vat;
+  const el = $('agile-content');
+  el.innerHTML = `
+    <div class="agile-now">
+      <div class="agile-price" style="color:${AGILE_COLOR(cp)}">${cp.toFixed(1)}</div>
+      <div class="agile-unit">p/kWh now</div>
+    </div>
+    <div class="agile-slots" id="agile-slots"></div>
+    <div class="agile-legend"><span>Now</span><span>+5 hrs</span></div>
+  `;
+  const slotsEl = $('agile-slots');
+  slots.forEach((s, i) => {
+    const pct = ((s.value_inc_vat - minP) / rangeP) * 75 + 15;
+    const bar = document.createElement('div');
+    bar.className = 'agile-bar' + (i === 0 ? ' now' : '');
+    bar.style.cssText = `height:${pct}%;background:${AGILE_COLOR(s.value_inc_vat)}`;
+    bar.title = `${s.value_inc_vat.toFixed(1)}p — ${new Date(s.valid_from).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`;
+    slotsEl.appendChild(bar);
+  });
+  $('agile-card').style.display = '';
+}
+async function loadAgile() {
+  try {
+    const prods = await fetch('https://api.octopus.energy/v1/products/?page_size=100&brand=OCTOPUS_ENERGY').then(r => r.json());
+    const agile = prods.results
+      .filter(p => p.code.startsWith('AGILE') && !p.is_prepay && !p.is_business)
+      .sort((a, b) => b.code.localeCompare(a.code))[0];
+    if (!agile) return;
+    const from = new Date(); from.setMinutes(from.getMinutes() < 30 ? 0 : 30, 0, 0);
+    const to   = new Date(from.getTime() + 6 * 3600000);
+    // Region P = North Scotland (SSEN)
+    const url = `https://api.octopus.energy/v1/products/${agile.code}/electricity-tariffs/E-1R-${agile.code}-P/standard-unit-rates/?period_from=${from.toISOString()}&period_to=${to.toISOString()}&page_size=30`;
+    const rates = await fetch(url).then(r => r.json());
+    if (rates.results && rates.results.length) renderAgile(rates.results);
+  } catch (e) { console.warn('Agile', e); }
+}
+loadAgile();
 
 // AUTO-DIM (10 mins)
 let dimTimer;
